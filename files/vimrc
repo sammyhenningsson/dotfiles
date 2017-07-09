@@ -1,23 +1,56 @@
-" Auto-install vim-plug
+"Auto-install vim-plug
+
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
 endif
 
 call plug#begin()
+"Language pack
 Plug 'sheerun/vim-polyglot'
+
+"Unix shell commands
 Plug 'tpope/vim-eunuch'
+
+"Universal defaults
 Plug 'tpope/vim-sensible'
+
+"Adjust shiftwidth and expandtab
 Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-surround'
+
+"Git
 Plug 'tpope/vim-fugitive'
+
+"Rails
+Plug 'tpope/vim-rails'
+
+"Toggle comments
 Plug 'tpope/vim-commentary'
-Plug 'w0ng/vim-hybrid'
+
+"Syntax check
 Plug 'scrooloose/syntastic'
+
+"File browser
+"Plug 'scrooloose/nerdtree'
+
+"Color theme
+Plug 'dracula/vim'
+
+"Fuzzy file finder
+"Plug 'ctrlpvim/ctrlp.vim'
+
+"Rspec
+Plug 'thoughtbot/vim-rspec'
+
+"Split/join statements
 Plug 'AndrewRadev/splitjoin.vim'
+
+"Paste without losing yanked text
 Plug 'vim-scripts/ReplaceWithRegister'
-Plug 'skalnik/vim-vroom'
+
+"Jump between lines depending on indentation
+Plug 'jeetsukumaran/vim-indentwise'
 
 call plug#end()
 
@@ -104,12 +137,16 @@ set completeopt=menuone,longest
 "Open new buffers in a new tab
 set switchbuf=usetab,newtab
 
-" Yank, delete, change operations use the "+ register => Ctrl+V outside of vim
+" Search recursive (e.g. :find SOME_FI <TAB>)
+set path+=**
+
+"
 set clipboard=unnamedplus
 
 autocmd FileType html setl sw=2 sts=2 et
 autocmd FileType ruby set sw=2 sts=2 et
 autocmd FileType eruby setl sw=2 sts=2 et
+autocmd FileType yaml set foldmethod=indent
 
 " When editing a file, always jump to the last known cursor position.
 " Don't do it when the position is invalid or when inside an event handler
@@ -126,26 +163,38 @@ autocmd InsertLeave * set nopaste
 
 let mapleader = ','
 map <leader>p :!ruby -c %<CR>
-map <leader>c :s/^/#/<CR>:noh<CR>
-map <leader>u :s/^#+//<CR>
+map <leader>c :s/^/# /<CR>:noh<CR>
+map <leader>u :s/^#+ //<CR>
 map <leader>m :s/^/\/\//<CR>:noh<CR>
 map <leader>n :set number!<CR>
 map <leader>r :set cursorline!<CR>
+map <leader>b f,2lXi<CR><Esc>
+nnoremap <leader>s :call RailsDbSchema()<CR>
 nnoremap <leader>l :call g:ToggleColorColumn()<CR>
+nnoremap <leader>g yiw:Ggrep <C-R>"<CR>
+
+" Open file relative to current file
+nmap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+nmap <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
+nmap <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
+
+
+" Rspec
+nmap <leader>rf :call RunCurrentSpecFile()<CR>
+map <leader>rs :call RunNearestSpec()<CR>
+map <leader>rl :call RunLastSpec()<CR>
+map <leader>ra :call RunAllSpecs()<CR>
 
 " Change current direcotry to the same as current file
 " set autochdir
 " autocmd BufEnter * silent! lcd %:p:h
 
-" make (s/tab)find search recursively 
-set path=$PWD/**
-
 "Ctags
 set tags+=./.ctags;$HOME
 "Open the definition in a new tab
-nnoremap <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Open the definition in a vertical split
-nnoremap <A-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 "Map Ctrl m to show full path of the current file
 nnoremap <C-m> :echo expand('%:p')<CR>
@@ -153,6 +202,7 @@ nnoremap <C-m> :echo expand('%:p')<CR>
 "Map Ctrl h/l to previous/next tab
 map <C-h> :tabp<CR>
 map <C-l> :tabn<CR>
+"map <C-n> :NERDTreeToggle<CR>
 
 exec "set <A-H>=\eh"
 exec "set <A-J>=\ej"
@@ -180,7 +230,41 @@ function! g:ToggleColorColumn()
   endif
 endfunction
 
-nnoremap <leader>l :call g:ToggleColorColumn()<CR>
+function! RailsDbSchema()
+  let l:git_dir = system("git rev-parse --show-toplevel")
+  let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/schema.rb"
+  :exec("tabedit ".expand(l:file))
+  :tabmove 0
+endfunction
 
 " Make sure highlight search foreground color is displayable on Yellow
 highlight Search term=reverse ctermbg=11 ctermfg=Black guibg=Yellow
+
+" Code Lint
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_ruby_checkers = ['rubocop']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_scss_checkers = ['scss_lint']
+"let g:syntastic_debug = 3
+"let g:syntastic_loc_list_height = 3
+
+" Dracula theme
+" color dracula
+
+" Added git branch to status line
+set statusline=%<%{fugitive#statusline()}\ %f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+
+
+" Fix for weird characters???
+"autocmd VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
+"autocmd InsertEnter,InsertChange *
+"  \ if v:insertmode == 'i' | 
+"  \   silent execute '!echo -ne "\e[6 q"' | redraw! |
+"  \ elseif v:insertmode == 'r' |
+"  \   silent execute '!echo -ne "\e[4 q"' | redraw! |
+"  \ endif
+"autocmd VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+
