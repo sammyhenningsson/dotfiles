@@ -1,0 +1,16 @@
+# This file is public!
+# Put things that should be private in ~/.bash_local_funcs
+
+if [ -f ~/.bash_local_funcs ]; then
+    . ~/.bash_local_funcs
+fi
+
+function listChangedConfFilesForDeb()
+{
+    deb=$1
+    if [ -z "$deb" ]; then
+        echo "usage: listChangedConfFilesForDeb DEB_PACKAGE"
+        return
+    fi
+    dpkg-query -W -f='${Conffiles}\n' $deb | awk 'OFS="  "{print $2,$1}' | LANG=C md5sum -c 2>/dev/null | awk -F': ' '$2 !~ /OK$/{print $1}'
+}

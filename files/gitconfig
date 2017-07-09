@@ -1,0 +1,23 @@
+[user]
+	email = sammy.henningsson@gmail.com
+	name = Sammy Henningsson
+[color]
+	ui = auto
+[core]
+	editor = vim
+	excludesfile = /home/sammy/.config/git/ignore
+[push]
+	default = current
+[alias]
+	st = status
+	ci = commit
+	co = checkout
+	br = branch
+	unstash = stash pop
+	dc = diff --cached
+	ls = log --stat --decorate
+	ctags = !.git/hooks/ctags
+[init]
+	templatedir = ~/.config/git/templates
+[diff "odf"]
+    textconv=odt2txt

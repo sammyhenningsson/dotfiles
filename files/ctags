@@ -1,0 +1,6 @@
+--recurse=yes
+--exclude=.git
+--exclude=log
+--exclude=tmp
+--languages=-javascript,sql
+

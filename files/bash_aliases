@@ -1,0 +1,14 @@
+# This file is public!
+# Put things that should be private in ~/.bash_local_aliases
+
+if [ -f ~/.bash_local_aliases ]; then
+    . ~/.bash_local_aliases
+fi
+
+alias ll='ls -l'
+alias la='ls -A'
+alias lh='ls -lh'
+alias igrep='grep -i'
+alias less='less -I'
+
+alias cdgems='cd $(gem environment gemdir)/gems'
