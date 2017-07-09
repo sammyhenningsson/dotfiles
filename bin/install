@@ -19,6 +19,7 @@ for file in $FILES; do
     echo "Linking '$TARGET_FILE'"
     ln "$file" "$TARGET_FILE"
   fi
+  echo $TARGET_FILE >> "${LOG_DIR}/$(basename $file)"
 done
 
 if [ $CHECK_GIT_STATUS -gt 0 ]; then

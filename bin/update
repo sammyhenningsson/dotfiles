@@ -1,0 +1,28 @@
+#!/bin/bash -i
+
+ROOT_DIR=$(git rev-parse --show-toplevel)
+LOG_DIR="$ROOT_DIR/installs"
+
+linked_before=$(find files/ -type f -printf '%n %f\n' | sed '/^1 /d;s/^[0-9]* //')
+git pull
+unlinked_after=$(find files/ -type f -printf '%n %f\n' | sed -n '/^1 /!d;s/^[0-9]* //p')
+
+for file in $linked_before; do
+  if [[ "$unlinked_after" =~ "$file" ]]; then
+    log="${LOG_DIR}/$file"
+    if [ -f $log ]; then
+      for target in $(cat $log); do
+	if [ -f $target ]; then
+	  rm "files/$file"
+	  ln "$target" "files/$file"
+	else
+	  sed -i "\:$target:d" $log
+	  if [ ! -s $log ]; then
+	    rm $log
+	  fi
+	fi
+      done
+    fi
+  fi
+done
+

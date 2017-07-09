@@ -1,5 +1,6 @@
 ROOT_DIR=$(git rev-parse --show-toplevel)
 FILES_DIR="$ROOT_DIR/files"
+LOG_DIR="$ROOT_DIR/installs"
 
 if [ $# -gt 0 -a -d "$1" ]; then
   TARGET_DIR=$1
@@ -28,4 +29,8 @@ if [ -d "$TARGET_DIR" ]; then
 else
   >&2 echo "Target directory '$TARGET_DIR' does not exist"
   exit 1
+fi
+
+if [ ! -d $LOG_DIR ]; then
+  mkdir $LOG_DIR
 fi

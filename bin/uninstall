@@ -14,8 +14,16 @@ for file in $FILES; do
 
   # Removing the file will delete the hard link.
   rm -f $file
-  # Then simple checkout the file to restore it without the link
+  # Then simply checkout the file to restore it without the link
   git co -- $file
+
+  log="${LOG_DIR}/$(basename $file)"
+  if [ -f $log ]; then
+    sed -i "\:$TARGET_FILE:d" $log
+    if [ ! -s $log ]; then
+      rm $log
+    fi
+  fi
 
   echo -n "Delete ${TARGET_FILE} (y/N)? "
   read -e rm_target
