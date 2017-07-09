@@ -1,8 +1,7 @@
-"Auto-install vim-plug
-
+" Auto-install vim-plug
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall
 endif
 
@@ -192,9 +191,9 @@ map <leader>ra :call RunAllSpecs()<CR>
 "Ctags
 set tags+=./.ctags;$HOME
 "Open the definition in a new tab
-map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+nnoremap <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Open the definition in a vertical split
-map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+nnoremap <A-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 "Map Ctrl m to show full path of the current file
 nnoremap <C-m> :echo expand('%:p')<CR>
@@ -202,7 +201,6 @@ nnoremap <C-m> :echo expand('%:p')<CR>
 "Map Ctrl h/l to previous/next tab
 map <C-h> :tabp<CR>
 map <C-l> :tabn<CR>
-"map <C-n> :NERDTreeToggle<CR>
 
 exec "set <A-H>=\eh"
 exec "set <A-J>=\ej"
