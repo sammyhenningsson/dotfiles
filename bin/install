@@ -1,28 +1,20 @@
-#!/bin/bash
+#!/bin/bash -i
 
 ROOT_DIR=$(git rev-parse --show-toplevel)
-FILES_DIR="$ROOT_DIR/files"
-TARGET_DIR=${1:-$HOME}
-
-# Strip off any trailing slashes (does not seem to be working??)
-TARGET_DIR=${TARGET_DIR%%+(/)}
-
-if [ -d "$TARGET_DIR" ]; then
-  echo "Installing into '$TARGET_DIR'"
-else
-  >&2 echo "Target directory '$TARGET_DIR' does not exist"
-  exit 1
-fi
+. "$ROOT_DIR/lib/common.sh"
 
 CHECK_GIT_STATUS=0
 
-for file in $(find $FILES_DIR -maxdepth 1 -type f); do
+for file in $FILES; do
   TARGET_FILE="$TARGET_DIR/.$(basename $file)"
   if [ -f "$TARGET_FILE" ]; then
-    echo "Target file '$TARGET_FILE' exist."
-    CHECK_GIT_STATUS=1
     rm $file
     ln "$TARGET_FILE" "$file"
+
+    if [ -n "$(git status --porcelain "$file")" ]; then
+      echo "Target file '$TARGET_FILE' already exist and differs against repo!"
+      CHECK_GIT_STATUS=1
+    fi
   else
     echo "Linking '$TARGET_FILE'"
     ln "$file" "$TARGET_FILE"
@@ -30,5 +22,6 @@ for file in $(find $FILES_DIR -maxdepth 1 -type f); do
 done
 
 if [ $CHECK_GIT_STATUS -gt 0 ]; then
+  echo ""
   git status
 fi

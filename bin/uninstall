@@ -1,30 +1,12 @@
-#!/bin/bash
+#!/bin/bash -i
 
 ROOT_DIR=$(git rev-parse --show-toplevel)
-FILES_DIR="$ROOT_DIR/files"
-TARGET_DIR=${1:-$HOME}
+. "$ROOT_DIR/lib/common.sh"
 
-# Strip off any trailing slashes (does not seem to be working??)
-TARGET_DIR=${TARGET_DIR%%+(/)}
-
-if [ -d "$TARGET_DIR" ]; then
-  echo "Installing into '$TARGET_DIR'"
-else
-  >&2 echo "Target directory '$TARGET_DIR' does not exist"
-  exit 1
-fi
-
-if [ $# -gt 1 ]; then
-  shift
-  files=$@
-else
-  files=$(find $FILES_DIR -maxdepth 1 -type f)
-fi
-
-
-for file in $files; do
-  if ! git diff-index --quiet HEAD -- "$file" ; then
-    echo "$file has been changed. Reset it before uninstalling.."
+for file in $FILES; do
+  if [ -n "$(git status --porcelain "$file")" ]; then
+    echo -e "$file has been changed. Reset it before uninstalling..\n"
+    git diff $file
     exit 1
   fi
 
@@ -34,5 +16,15 @@ for file in $files; do
   rm -f $file
   # Then simple checkout the file to restore it without the link
   git co -- $file
+
+  echo -n "Delete ${TARGET_FILE} (y/N)? "
+  read -e rm_target
+
+  if [ -n "$rm_target" ]; then
+    rm_target=${rm_target,,} # Lower case
+    if [[ "$rm_target" =~ ^y.* ]]; then
+      rm $TARGET_FILE
+    fi
+  fi
 done
 
