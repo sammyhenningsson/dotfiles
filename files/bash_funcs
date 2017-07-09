@@ -14,3 +14,10 @@ function listChangedConfFilesForDeb()
     fi
     dpkg-query -W -f='${Conffiles}\n' $deb | awk 'OFS="  "{print $2,$1}' | LANG=C md5sum -c 2>/dev/null | awk -F': ' '$2 !~ /OK$/{print $1}'
 }
+
+function _dotfiles() {
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    local files=$(find files -exec basename {} \;)
+    COMPREPLY=($(compgen -W "$files" -- $cur))
+}
+complete -F _dotfiles bin/install bin/uninstall
