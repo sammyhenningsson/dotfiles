@@ -66,6 +66,9 @@ xterm*|rxvt*)
     ;;
 esac
 
+# Disable freezing shell with Ctrl S 
+stty -ixon
+
 if [ -f ~/.bash_local_rc ]; then
     . ~/.bash_local_rc
 fi
