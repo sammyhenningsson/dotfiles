@@ -189,7 +189,7 @@ map <leader>ra :call RunAllSpecs()<CR>
 " autocmd BufEnter * silent! lcd %:p:h
 
 "Ctags
-set tags+=./.ctags;$HOME
+set tags+=./.ctags,.git/tags
 "Open the definition in a new tab
 nnoremap <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Open the definition in a vertical split
