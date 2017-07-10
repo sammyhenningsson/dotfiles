@@ -13,7 +13,7 @@ fi
 
 if [ $# -gt 0 ]; then
   for file in $@; do
-    f="${FILES_DIR}/$(basename $file)"
+    f="${FILES_DIR}/${file##*/}"
     if [ ! -f $f ]; then
       >&2 echo "Source file '$f' does not exist"
       exit 1

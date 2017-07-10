@@ -6,9 +6,10 @@ ROOT_DIR=$(git rev-parse --show-toplevel)
 CHECK_GIT_STATUS=0
 
 for file in $FILES; do
-  TARGET_FILE="$TARGET_DIR/.$(basename $file)"
+  TARGET_FILE="$TARGET_DIR/.${file##*/}"
   if [ -f "$TARGET_FILE" ]; then
-    mv "$TARGET_FILE" "${TARGET_FILE}.dotfile.backup"
+    cp "$TARGET_FILE" "${TARGET_FILE}.dotfile.backup"
+    rm "$TARGET_FILE"
     ln "$file" "$TARGET_FILE"
     cp "${TARGET_FILE}.dotfile.backup" "$file"
 
@@ -20,7 +21,7 @@ for file in $FILES; do
     echo "Linking '$TARGET_FILE'"
     ln "$file" "$TARGET_FILE"
   fi
-  echo $TARGET_FILE >> "${LOG_DIR}/$(basename $file)"
+  echo $TARGET_FILE >> "${LOG_DIR}/${file##*/}"
 done
 
 if [ $CHECK_GIT_STATUS -gt 0 ]; then
