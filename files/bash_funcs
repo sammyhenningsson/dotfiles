@@ -20,4 +20,4 @@ function _dotfiles() {
     local files=$(find files -exec basename {} \;)
     COMPREPLY=($(compgen -W "$files" -- $cur))
 }
-complete -F _dotfiles bin/install bin/uninstall
+complete -F _dotfiles bin/install bin/uninstall bin/reset bin/update
