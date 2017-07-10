@@ -98,6 +98,6 @@ fi
 export EDITOR=vim
 
 # load rbenv
-eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 
