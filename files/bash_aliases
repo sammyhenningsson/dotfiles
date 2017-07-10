@@ -8,6 +8,7 @@ fi
 alias ll='ls -l'
 alias la='ls -A'
 alias lh='ls -lh'
+alias li='ls -li'
 alias igrep='grep -i'
 alias less='less -I'
 
