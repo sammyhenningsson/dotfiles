@@ -12,6 +12,7 @@ for file in $FILES; do
     rm "$TARGET_FILE"
     ln "$file" "$TARGET_FILE"
     cp "${TARGET_FILE}.dotfile.backup" "$file"
+    rm "${TARGET_FILE}.dotfile.backup"
 
     if [ -n "$(git status --porcelain "$file")" ]; then
       echo "Target file '$TARGET_FILE' already exist and differs against repo!"

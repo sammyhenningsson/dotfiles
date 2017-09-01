@@ -13,7 +13,7 @@ for file in $FILES; do
     read -e discard
     discard=${discard,,} # Lower case
     if [[ ! "$discard" =~ ^y.* ]]; then
-      break
+      continue
     fi
   fi
   if [[ "$linked" =~ "$file" ]]; then
