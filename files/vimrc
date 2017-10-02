@@ -158,16 +158,17 @@ autocmd BufReadPost *
 autocmd BufEnter * stopinsert
 
 " Disable paste mode when leaving Insert Mode
-autocmd InsertLeave * set nopaste
+" autocmd InsertLeave * set nopaste
 
 let mapleader = ','
 map <leader>p :!ruby -c %<CR>
 map <leader>c :s/^/# /<CR>:noh<CR>
-map <leader>u :s/^#+ //<CR>
+map <leader>u :s/^#\s\?//<CR>
 map <leader>m :s/^/\/\//<CR>:noh<CR>
 map <leader>n :set number!<CR>
 map <leader>r :set cursorline!<CR>
 map <leader>b f,2lXi<CR><Esc>
+map <leader>h :set hlsearch!<CR>
 nnoremap <leader>s :call RailsDbSchema()<CR>
 nnoremap <leader>l :call g:ToggleColorColumn()<CR>
 nnoremap <leader>g yiw:Ggrep <C-R>"<CR>
@@ -265,4 +266,18 @@ set statusline=%<%{fugitive#statusline()}\ %f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 "  \   silent execute '!echo -ne "\e[4 q"' | redraw! |
 "  \ endif
 "autocmd VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+
+" Create non existing directory on file write
+" function s:MkNonExDir(file, buf)
+"     if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+"         let dir=fnamemodify(a:file, ':h')
+"         if !isdirectory(dir)
+"             call mkdir(dir, 'p')
+"         endif
+"     endif
+" endfunction
+" augroup BWCCreateDir
+"     autocmd!
+"     autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+" augroup END
 
