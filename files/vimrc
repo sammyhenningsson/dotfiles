@@ -51,6 +51,9 @@ Plug 'vim-scripts/ReplaceWithRegister'
 "Jump between lines depending on indentation
 Plug 'jeetsukumaran/vim-indentwise'
 
+" Solarized color scheme
+Plug 'altercation/vim-colors-solarized'
+
 call plug#end()
 
 " Wrap too long lines
@@ -252,6 +255,13 @@ let g:syntastic_scss_checkers = ['scss_lint']
 
 " Dracula theme
 " color dracula
+
+if &diff
+  highlight DiffAdd    cterm=BOLD ctermfg=NONE ctermbg=22
+  highlight DiffDelete cterm=BOLD ctermfg=NONE ctermbg=52
+  highlight DiffChange cterm=BOLD ctermfg=NONE ctermbg=23
+  highlight DiffText   cterm=BOLD ctermfg=NONE ctermbg=24
+endif
 
 " Added git branch to status line
 set statusline=%<%{fugitive#statusline()}\ %f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
