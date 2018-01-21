@@ -13,4 +13,4 @@ alias igrep='grep -i'
 alias less='less -I'
 
 alias cdgems='cd $(gem environment gemdir)/gems'
-alias json='python -m json.tool'
+alias json='ruby -rjson -e "puts (JSON.pretty_generate JSON.parse(STDIN.read))"'
