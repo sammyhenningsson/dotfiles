@@ -164,28 +164,30 @@ autocmd BufEnter * stopinsert
 autocmd InsertLeave * set nopaste
 
 let mapleader = ','
-map <leader>p :!ruby -c %<CR>
-map <leader>c :s/^/# /<CR>:noh<CR>
-map <leader>u :s/^#+ //<CR>
-map <leader>m :s/^/\/\//<CR>:noh<CR>
-map <leader>n :set number!<CR>
-map <leader>r :set cursorline!<CR>
-map <leader>b f,2lXi<CR><Esc>
+nnoremap <leader>p :!ruby -c %<CR>
+nnoremap <leader>c :s/^/# /<CR>:noh<CR>
+nnoremap <leader>u :s/^#+ //<CR>
+nnoremap <leader>m :s/^/\/\//<CR>:noh<CR>
+nnoremap <leader>n :set number!<CR>
+nnoremap <leader>r :set cursorline!<CR>
+nnoremap <leader>b f,2lXi<CR><Esc>
 nnoremap <leader>s :call RailsDbSchema()<CR>
 nnoremap <leader>l :call g:ToggleColorColumn()<CR>
 nnoremap <leader>g yiw:Ggrep <C-R>"<CR>
+vmap     <leader>g y:Ggrep <C-R>"<CR>
+map      <leader>d :redraw!<CR>
 
 " Open file relative to current file
-nmap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-nmap <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
-nmap <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
 
 
 " Rspec
-nmap <leader>rf :call RunCurrentSpecFile()<CR>
-map <leader>rs :call RunNearestSpec()<CR>
-map <leader>rl :call RunLastSpec()<CR>
-map <leader>ra :call RunAllSpecs()<CR>
+nnoremap <leader>rf :call RunCurrentSpecFile()<CR>
+nnoremap <leader>rs :call RunNearestSpec()<CR>
+nnoremap <leader>rl :call RunLastSpec()<CR>
+nnoremap <leader>ra :call RunAllSpecs()<CR>
 
 " Change current direcotry to the same as current file
 " set autochdir
