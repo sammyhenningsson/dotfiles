@@ -46,15 +46,18 @@ Plug 'thoughtbot/vim-rspec'
 Plug 'AndrewRadev/splitjoin.vim'
 
 "Paste without losing yanked text
-Plug 'vim-scripts/ReplaceWithRegister'
+"Plug 'vim-scripts/ReplaceWithRegister'
 
 "Jump between lines depending on indentation
 Plug 'jeetsukumaran/vim-indentwise'
 
-" Solarized color scheme
+"Solarized color scheme
 Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
+
+" enable all features
+set nocompatible
 
 " Wrap too long lines
 set wrap
@@ -63,14 +66,14 @@ set wrap
 set tabstop=4
 set softtabstop=4
 
-set pastetoggle=<C-u>
-set showmode
-
 " (Auto)indent uses 4 characters
 set shiftwidth=4
 
 " spaces instead of tabs
 set expandtab
+
+set pastetoggle=<C-u>
+set showmode
 
 " guess indentation
 set autoindent
@@ -80,13 +83,6 @@ set wildchar=<Tab>
 
 " show line numbers
 "set number
-
-" Fold using markers {{{
-" like this
-" }}}
-
-" enable all features
-set nocompatible
 
 " powerful backspaces
 set backspace=indent,eol,start
@@ -172,6 +168,7 @@ nnoremap <leader>n :set number!<CR>
 nnoremap <leader>r :set cursorline!<CR>
 nnoremap <leader>b f,2lXi<CR><Esc>
 nnoremap <leader>s :call RailsDbSchema()<CR>
+nnoremap <leader>q :call RailsRoutes()<CR>
 nnoremap <leader>l :call g:ToggleColorColumn()<CR>
 nnoremap <leader>g yiw:Ggrep <C-R>"<CR>
 vmap     <leader>g y:Ggrep <C-R>"<CR>
@@ -189,7 +186,7 @@ nnoremap <leader>rs :call RunNearestSpec()<CR>
 nnoremap <leader>rl :call RunLastSpec()<CR>
 nnoremap <leader>ra :call RunAllSpecs()<CR>
 
-" Change current direcotry to the same as current file
+" Change current directory to the same as current file
 " set autochdir
 " autocmd BufEnter * silent! lcd %:p:h
 
@@ -199,9 +196,6 @@ set tags+=./.ctags,.git/tags
 nnoremap <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Open the definition in a vertical split
 nnoremap <A-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-
-"Map Ctrl m to show full path of the current file
-nnoremap <C-m> :echo expand('%:p')<CR>
 
 "Map Ctrl h/l to previous/next tab
 map <C-h> :tabp<CR>
@@ -236,6 +230,13 @@ endfunction
 function! RailsDbSchema()
   let l:git_dir = system("git rev-parse --show-toplevel")
   let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/schema.rb"
+  :exec("tabedit ".expand(l:file))
+  :tabmove 0
+endfunction
+
+function! RailsRoutes()
+  let l:git_dir = system("git rev-parse --show-toplevel")
+  let l:file = substitute(l:git_dir, '\n$', '', '') . "/config/routes.rb"
   :exec("tabedit ".expand(l:file))
   :tabmove 0
 endfunction
