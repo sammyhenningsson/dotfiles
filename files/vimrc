@@ -9,7 +9,7 @@ call plug#begin()
 "Language pack
 Plug 'sheerun/vim-polyglot'
 
-"Unix shell commands
+" Unix shell commands
 Plug 'tpope/vim-eunuch'
 
 "Universal defaults
@@ -141,6 +141,10 @@ set path+=**
 "
 set clipboard=unnamedplus
 
+"
+set splitbelow
+set splitright
+
 autocmd FileType html setl sw=2 sts=2 et
 autocmd FileType ruby set sw=2 sts=2 et
 autocmd FileType eruby setl sw=2 sts=2 et
@@ -161,9 +165,7 @@ autocmd InsertLeave * set nopaste
 
 let mapleader = ','
 nnoremap <leader>p :!ruby -c %<CR>
-nnoremap <leader>c :s/^/# /<CR>:noh<CR>
-nnoremap <leader>u :s/^#+ //<CR>
-nnoremap <leader>m :s/^/\/\//<CR>:noh<CR>
+nnoremap <leader>c :call g:ToggleQuickfix()<CR>
 nnoremap <leader>n :set number!<CR>
 nnoremap <leader>r :set cursorline!<CR>
 nnoremap <leader>b f,2lXi<CR><Esc>
@@ -219,6 +221,18 @@ vnoremap // y/<C-R>"<CR>
 
 cmap w!! w !sudo tee > /dev/null %
 
+function! g:ToggleQuickfix()
+  for buffer in tabpagebuflist()
+    if bufname(buffer) == ''
+      " then it should be the quickfix window
+      cclose
+      return
+    endif
+  endfor
+
+  copen
+endfunction
+
 function! g:ToggleColorColumn()
   if &l:colorcolumn != ''
     let &l:colorcolumn=''
@@ -230,15 +244,13 @@ endfunction
 function! RailsDbSchema()
   let l:git_dir = system("git rev-parse --show-toplevel")
   let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/schema.rb"
-  :exec("tabedit ".expand(l:file))
-  :tabmove 0
+  :exec("0tabedit ".expand(l:file))
 endfunction
 
 function! RailsRoutes()
   let l:git_dir = system("git rev-parse --show-toplevel")
   let l:file = substitute(l:git_dir, '\n$', '', '') . "/config/routes.rb"
-  :exec("tabedit ".expand(l:file))
-  :tabmove 0
+  :exec("0tabedit ".expand(l:file))
 endfunction
 
 " Make sure highlight search foreground color is displayable on Yellow
