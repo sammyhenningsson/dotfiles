@@ -145,10 +145,10 @@ set clipboard=unnamedplus
 set splitbelow
 set splitright
 
-autocmd FileType html setl sw=2 sts=2 et
-autocmd FileType ruby set sw=2 sts=2 et
-autocmd FileType eruby setl sw=2 sts=2 et
-autocmd FileType yaml set foldmethod=indent
+autocmd FileType html setlocal sw=2 sts=2 et
+autocmd FileType ruby setlocal sw=2 sts=2 et
+autocmd FileType eruby setlocal sw=2 sts=2 et
+autocmd FileType yaml setlocal foldmethod=indent
 
 " When editing a file, always jump to the last known cursor position.
 " Don't do it when the position is invalid or when inside an event handler
