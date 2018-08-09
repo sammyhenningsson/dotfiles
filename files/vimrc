@@ -28,7 +28,8 @@ Plug 'tpope/vim-rails'
 Plug 'tpope/vim-commentary'
 
 "Syntax check
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
 
 "File browser
 "Plug 'scrooloose/nerdtree'
@@ -175,11 +176,13 @@ nnoremap <leader>l :call g:ToggleColorColumn()<CR>
 nnoremap <leader>g yiw:Ggrep <C-R>"<CR>
 vmap     <leader>g y:Ggrep <C-R>"<CR>
 map      <leader>d :redraw!<CR>
+nnoremap <leader>rts 'T:call RunNearestSpec()<CR>
 
 " Open file relative to current file
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 
 " Rspec
@@ -253,19 +256,50 @@ function! RailsRoutes()
   :exec("0tabedit ".expand(l:file))
 endfunction
 
+function! BufSel(pattern)
+  let bufcount = bufnr("$")
+  let currbufnr = 1
+  let nummatches = 0
+  let firstmatchingbufnr = 0
+  while currbufnr <= bufcount
+    if(bufexists(currbufnr))
+      let currbufname = bufname(currbufnr)
+      if(match(currbufname, a:pattern) > -1)
+        echo currbufnr . ": ". bufname(currbufnr)
+        let nummatches += 1
+        let firstmatchingbufnr = currbufnr
+      endif
+    endif
+    let currbufnr = currbufnr + 1
+  endwhile
+  if(nummatches == 1)
+    execute ":buffer ". firstmatchingbufnr
+  elseif(nummatches > 1)
+    let desiredbufnr = input("Enter buffer number: ")
+    if(strlen(desiredbufnr) != 0)
+      execute ":buffer ". desiredbufnr
+    endif
+  else
+    echo "No matching buffers"
+  endif
+endfunction
+
 " Make sure highlight search foreground color is displayable on Yellow
 highlight Search term=reverse ctermbg=11 ctermfg=Black guibg=Yellow
 
 " Code Lint
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_ruby_checkers = ['rubocop']
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_scss_checkers = ['scss_lint']
-"let g:syntastic_debug = 3
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 2
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_ruby_checkers = ['rubocop']
+" let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_javascript_eslint_exe = '$(npm bin)/eslint'
+" let g:syntastic_scss_checkers = ['scss_lint']
+" let g:syntastic_debug = 33
 "let g:syntastic_loc_list_height = 3
+
+let g:ale_set_highlights = 0
 
 " Dracula theme
 " color dracula
