@@ -27,6 +27,9 @@ Plug 'tpope/vim-rails'
 "Toggle comments
 Plug 'tpope/vim-commentary'
 
+"Change surrounding chars of a word
+Plug 'tpope/vim-surround'
+
 "Syntax check
 " Plug 'scrooloose/syntastic'
 Plug 'w0rp/ale'
@@ -202,6 +205,9 @@ nnoremap <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Open the definition in a vertical split
 nnoremap <A-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
+"Map gl to Go to end of line
+nnoremap gl $
+
 "Map Ctrl h/l to previous/next tab
 map <C-h> :tabp<CR>
 map <C-l> :tabn<CR>
@@ -219,8 +225,9 @@ nmap <A-J> 5j
 nmap <A-K> 5k
 nmap <A-L> 3w
 
-"" in visual mode, select text and type // to search for that selection
-vnoremap // y/<C-R>"<CR>
+"" in visual mode, search selection up or down
+vnoremap * y/<C-R>"<CR>
+vnoremap # y?<C-R>"<CR>
 
 cmap w!! w !sudo tee > /dev/null %
 
@@ -312,7 +319,14 @@ if &diff
 endif
 
 " Added git branch to status line
-set statusline=%<%{fugitive#statusline()}\ %f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%{fugitive#statusline()}\ 
+set statusline+=%f\ 
+set statusline+=%h%m%r
+set statusline+=%q
+set statusline+=[Buf:%n]
+set statusline+=%=
+set statusline+=%-14.(%l,%c%V%)\ 
+set statusline+=%P
 
 
 " Fix for weird characters???
