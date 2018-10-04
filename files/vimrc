@@ -339,3 +339,54 @@ set statusline+=%P
 "  \ endif
 "autocmd VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
 
+function! BufSel(pattern)
+  let bufcount = bufnr("$")
+  let currbufnr = 1
+  let nummatches = 0
+  let firstmatchingbufnr = 0
+  while currbufnr <= bufcount
+    if(bufexists(currbufnr))
+      let currbufname = bufname(currbufnr)
+      if(match(currbufname, a:pattern) > -1)
+        echo currbufnr . ": ". bufname(currbufnr)
+        let nummatches += 1
+        let firstmatchingbufnr = currbufnr
+      endif
+    endif
+    let currbufnr = currbufnr + 1
+  endwhile
+
+  if(nummatches == 1)
+    return firstmatchingbufnr
+  elseif(nummatches > 1)
+    let desiredbufnr = input("Enter buffer number: ")
+    if(strlen(desiredbufnr) != 0)
+      return desiredbufnr
+    endif
+  else
+    return -1
+  endif
+endfunction
+
+function! BufOpen(pattern)
+  let matchnr = BufSel(a:pattern)
+  if(matchnr < 0)
+    echo "No buffers match: " . a:pattern
+  else
+    execute ":buffer ". matchnr
+  endif
+endfunction
+
+function! BufTabOpen(pattern)
+  let matchnr = BufSel(a:pattern)
+  if(matchnr < 0)
+    echo "No buffers match: " . a:pattern
+  else
+    execute ":tab sb ". matchnr
+  endif
+endfunction
+
+"Bind the Buf**() functions to user-commands
+command! -nargs=1 Bs :call BufSel("<args>")
+command! -nargs=1 Bo :call BufOpen("<args>")
+command! -nargs=1 Bt :call BufTabOpen("<args>")
