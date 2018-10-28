@@ -1,0 +1,24 @@
+if defined?(PryByebug)
+  Pry.commands.alias_command 'c', 'continue'
+  Pry.commands.alias_command 's', 'step'
+  Pry.commands.alias_command 'n', 'next'
+  Pry.commands.alias_command 'f', 'finish'
+end
+
+Pry::Commands.command(/^$/, 'repeat last command') do
+  if Pry.history.to_a.last =~ /\Ac(ontinue)?\Z/
+    _pry_.run_command 'continue'
+  else
+    _pry_.run_command 'next'
+  end
+end
+
+module Slask
+  def ladda
+    Dir.glob("#{Dir.home}/Development/pry_slask/*.rb").each do |file|
+      load file
+    end
+  end
+end
+
+include Slask
