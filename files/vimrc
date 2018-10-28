@@ -137,7 +137,7 @@ set scs
 set completeopt=menuone,longest
 
 "Open new buffers in a new tab
-set switchbuf=usetab,newtab
+" set switchbuf=usetab,newtab
 
 " Search recursive (e.g. :find SOME_FI <TAB>)
 set path+=**
@@ -207,6 +207,7 @@ nnoremap <A-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 "Map gl to Go to end of line
 nnoremap gl $
+nnoremap gh ^
 
 "Map Ctrl h/l to previous/next tab
 map <C-h> :tabp<CR>
