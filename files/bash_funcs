@@ -21,3 +21,25 @@ function _dotfiles() {
     COMPREPLY=($(compgen -W "$files" -- $cur))
 }
 complete -F _dotfiles bin/install bin/uninstall bin/reset bin/update
+
+function write_sha512_file() {
+    if [ -z "$1" ]; then
+        echo "Usage: ${FUNCNAME[0]} file [target_file]"
+        return
+    fi
+    input=$1
+    output=${2:-${input}.sha512}
+    if [ "${output: -1}" == "/" ]; then
+        output="${output}${input}.sha512"
+    fi
+    checksum=$(sha512sum $input)
+    echo $checksum > $output
+}
+
+function rsp() {
+    arg=""
+    for str in $@; do
+        arg+=" $(sed -e 's/\./\//g' <<< $str).rb"
+    done
+    rspec $arg
+}
