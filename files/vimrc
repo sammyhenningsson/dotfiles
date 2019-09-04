@@ -84,6 +84,7 @@ set autoindent
 
 " Expand the command line using tab
 set wildchar=<Tab>
+set wildcharm=<Tab>
 
 " show line numbers
 "set number
@@ -142,6 +143,9 @@ set completeopt=menuone,longest
 " Search recursive (e.g. :find SOME_FI <TAB>)
 set path+=**
 
+" Exculde node_modules/ for search, like :find or :tabfind
+set wildignore+=*/node_modules/*
+
 "
 set clipboard=unnamedplus
 
@@ -149,10 +153,13 @@ set clipboard=unnamedplus
 set splitbelow
 set splitright
 
+" Create session files
+set sessionoptions=buffers,curdir,folds,tabpages
+
 autocmd FileType html setlocal sw=2 sts=2 et
-autocmd FileType ruby setlocal sw=2 sts=2 et
+autocmd FileType ruby setlocal sw=2 sts=2 et suffixesadd+=.rb
 autocmd FileType eruby setlocal sw=2 sts=2 et
-autocmd FileType yaml setlocal foldmethod=indent
+" autocmd FileType yaml setlocal foldmethod=indent
 
 " When editing a file, always jump to the last known cursor position.
 " Don't do it when the position is invalid or when inside an event handler
@@ -171,19 +178,20 @@ let mapleader = ','
 nnoremap <leader>p :!ruby -c %<CR>
 nnoremap <leader>c :call g:ToggleQuickfix()<CR>
 nnoremap <leader>n :set number!<CR>
-nnoremap <leader>r :set cursorline!<CR>
+nnoremap <leader>rh :set cursorline!<CR>
 nnoremap <leader>b f,2lXi<CR><Esc>
-nnoremap <leader>s :call RailsDbSchema()<CR>
+nnoremap <leader>d :call RailsDbSchema()<CR>
 nnoremap <leader>q :call RailsRoutes()<CR>
 nnoremap <leader>l :call g:ToggleColorColumn()<CR>
 nnoremap <leader>g yiw:Ggrep <C-R>"<CR>
 vmap     <leader>g y:Ggrep <C-R>"<CR>
-map      <leader>d :redraw!<CR>
+" map      <leader>d :redraw!<CR>
 nnoremap <leader>rts 'T:call RunNearestSpec()<CR>
 
 " Open file relative to current file
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <leader>s :split <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
@@ -192,7 +200,8 @@ cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 nnoremap <leader>rf :call RunCurrentSpecFile()<CR>
 nnoremap <leader>rs :call RunNearestSpec()<CR>
 nnoremap <leader>rl :call RunLastSpec()<CR>
-nnoremap <leader>ra :call RunAllSpecs()<CR>
+nnoremap <leader>ra :call RunFailedSpecs()<CR>
+
 
 " Change current directory to the same as current file
 " set autochdir
@@ -309,15 +318,16 @@ highlight Search term=reverse ctermbg=11 ctermfg=Black guibg=Yellow
 
 let g:ale_set_highlights = 0
 
-" Dracula theme
-" color dracula
+let g:solarized_termcolors=256
+set background=dark
+colorscheme solarized
 
-if &diff
-  highlight DiffAdd    cterm=BOLD ctermfg=NONE ctermbg=22
-  highlight DiffDelete cterm=BOLD ctermfg=NONE ctermbg=52
-  highlight DiffChange cterm=BOLD ctermfg=NONE ctermbg=23
-  highlight DiffText   cterm=BOLD ctermfg=NONE ctermbg=24
-endif
+" if &diff
+"   highlight DiffAdd    cterm=BOLD ctermfg=NONE ctermbg=22
+"   highlight DiffDelete cterm=BOLD ctermfg=NONE ctermbg=52
+"   highlight DiffChange cterm=BOLD ctermfg=NONE ctermbg=23
+"   highlight DiffText   cterm=BOLD ctermfg=NONE ctermbg=24
+" endif
 
 " Added git branch to status line
 set statusline=%<%{fugitive#statusline()}\ 
