@@ -13,4 +13,6 @@ alias igrep='grep -i'
 alias less='less -I'
 
 alias cdgems='cd $(gem environment gemdir)/gems'
+alias be='bundle exec'
 alias json='ruby -rjson -e "puts (JSON.pretty_generate JSON.parse(STDIN.read))"'
+alias gm='git checkout master'
