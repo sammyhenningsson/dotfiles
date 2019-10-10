@@ -16,3 +16,7 @@ alias cdgems='cd $(gem environment gemdir)/gems'
 alias be='bundle exec'
 alias json='ruby -rjson -e "puts (JSON.pretty_generate JSON.parse(STDIN.read))"'
 alias gm='git checkout master'
+
+alias db='docker build . -t'
+alias dr='docker run --rm -it'
+alias de='docker exec -it'
