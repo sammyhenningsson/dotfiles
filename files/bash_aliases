@@ -1,8 +1,8 @@
 # This file is public!
 # Put things that should be private in ~/.bash_local_aliases
 
-if [ -f ~/.bash_local_aliases ]; then
-    . ~/.bash_local_aliases
+if [ -f ~/.bash_aliases.local ]; then
+    . ~/.bash_aliases.local
 fi
 
 alias ll='ls -l'

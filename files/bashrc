@@ -69,8 +69,8 @@ esac
 # Disable freezing shell with Ctrl S 
 stty -ixon
 
-if [ -f ~/.bash_local_rc ]; then
-    . ~/.bash_local_rc
+if [ -f ~/.bashrc.local ]; then
+    . ~/.bashrc.local
 fi
 
 if [ -f /etc/bash_completion ]; then

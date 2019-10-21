@@ -1,8 +1,8 @@
 # This file is public!
-# Put things that should be private in ~/.bash_local_funcs
+# Put things that should be private in ~/.bash_funcs.local
 
-if [ -f ~/.bash_local_funcs ]; then
-    . ~/.bash_local_funcs
+if [ -f ~/.bash_funcs.local ]; then
+    . ~/.bash_funcs.local
 fi
 
 function listChangedConfFilesForDeb()
