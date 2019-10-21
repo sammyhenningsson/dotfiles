@@ -19,9 +19,9 @@ for file in $FILES; do
   if [[ "$linked" =~ "$file" ]]; then
     TARGET_FILE="$TARGET_DIR/.${file##*/}"
     rm -f "$TARGET_FILE"
-    git co -- "files/$file" 
+    git checkout -- "files/$file"
     ln "files/$file" "$TARGET_FILE"
   else
-    git co -- "files/$file" 
+    git checkout -- "files/$file"
   fi
 done

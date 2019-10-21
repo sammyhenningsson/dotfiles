@@ -15,7 +15,7 @@ for file in $FILES; do
   # Removing the file will delete the hard link.
   rm -f $file
   # Then simply checkout the file to restore it without the link
-  git co -- $file
+  git checkout -- $file
 
   log="${LOG_DIR}/${file##*/}"
   if [ -f $log ]; then

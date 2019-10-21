@@ -8,9 +8,8 @@ CHECK_GIT_STATUS=0
 for file in $FILES; do
   TARGET_FILE="$TARGET_DIR/.${file##*/}"
   if [ -f "$TARGET_FILE" ]; then
-    mv $TARGET_FILE{,.dotfile.backup}
-    ln "$file" "$TARGET_FILE"
-    mv "${TARGET_FILE}.dotfile.backup" "$file"
+    rm "$file"
+    ln "$TARGET_FILE" "$file"
 
     if [ -n "$(git status --porcelain "$file")" ]; then
       echo "Target file '$TARGET_FILE' already exist and differs against repo!"
