@@ -31,14 +31,16 @@ process_args() {
     TARGET_DIR=$HOME
   fi
 
+  TARGET_DIR=$(readlink -f $TARGET_DIR)
+
   if [ $# -gt 0 ]; then
-    for file in $@; do
-      f="${FILES_DIR}/${file##*/}"
-      if [ ! -f $f ]; then
-        >&2 echo "Source file '$f' does not exist"
+    for f in "$@"; do
+      file="${FILES_DIR}/${f##*/}"
+      if [ ! -f $file ]; then
+        >&2 echo "Source file '$file' does not exist"
         exit 1
       fi
-      FILES+=" $f"
+      FILES+=" $file"
     done
   else
     FILES=$(find $FILES_DIR -maxdepth 1 -type f)
@@ -53,3 +55,8 @@ process_args() {
     mkdir $LOG_DIR
   fi
 }
+
+logfile() {
+  echo "$LOG_DIR/$(basename "$1")"
+}
+

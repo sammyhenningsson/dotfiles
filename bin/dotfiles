@@ -11,8 +11,8 @@ COMMAND="$1"
 shift
 
 if get_script "$COMMAND"; then
-    cd $ROOT_DIR
     process_args "$@"
+    cd $ROOT_DIR
     $COMMAND
 else
     usage

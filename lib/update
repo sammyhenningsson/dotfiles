@@ -7,7 +7,7 @@ update() {
 
   for file in $linked_before; do
     if [[ "$unlinked_after" =~ "$file" ]]; then
-      local log="${LOG_DIR}/$file"
+      local log=$(logfile $file)
       if [ -f $log ]; then
 	for target in $(cat $log); do
 	  if [ -f $target ]; then

@@ -15,13 +15,19 @@ reset() {
         continue
       fi
     fi
+
+    git checkout -- "files/$file"
+
     if [[ "$linked" =~ "$file" ]]; then
-      TARGET_FILE="$TARGET_DIR/.${file##*/}"
-      rm -f "$TARGET_FILE"
-      git checkout -- "files/$file"
-      ln "files/$file" "$TARGET_FILE"
-    else
-      git checkout -- "files/$file"
+      local log=$(logfile $file)
+      if [ -f $log ]; then
+        for target in $(cat $log); do
+          if [ -f "$target" ]; then
+            rm "$target"
+            ln "files/$file" "$target"
+          fi
+        done
+      fi
     fi
   done
 }

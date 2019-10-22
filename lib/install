@@ -18,7 +18,13 @@ install() {
       ln "$file" "$TARGET_FILE"
     fi
     local log_file="${LOG_DIR}/${file##*/}"
-    if ! grep -q "$TARGET_FILE" "$log_file"; then
+    local write_log=1
+    if [ -f $log_file ]; then
+      if grep -q "$TARGET_FILE" "$log_file"; then
+        write_log=0
+      fi
+    fi
+    if [ "$write_log" -eq 1 ]; then
       echo $TARGET_FILE >> "$log_file"
     fi
   done
