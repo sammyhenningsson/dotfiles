@@ -1,0 +1,30 @@
+#!/bin/bash -i
+
+install() {
+  CHECK_GIT_STATUS=0
+
+  for file in $FILES; do
+    TARGET_FILE="$TARGET_DIR/.${file##*/}"
+    if [ -f "$TARGET_FILE" ]; then
+      rm "$file"
+      ln "$TARGET_FILE" "$file"
+
+      if [ -n "$(git status --porcelain "$file")" ]; then
+        echo "Target file '$TARGET_FILE' already exist and differs against repo!"
+        CHECK_GIT_STATUS=1
+      fi
+    else
+      echo "Linking '$TARGET_FILE'"
+      ln "$file" "$TARGET_FILE"
+    fi
+    local log_file="${LOG_DIR}/${file##*/}"
+    if ! grep -q "$TARGET_FILE" "$log_file"; then
+      echo $TARGET_FILE >> "$log_file"
+    fi
+  done
+
+  if [ $CHECK_GIT_STATUS -gt 0 ]; then
+    echo ""
+    git status
+  fi
+}

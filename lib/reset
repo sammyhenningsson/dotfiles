@@ -1,0 +1,27 @@
+#!/bin/bash -i
+
+
+reset() {
+  local linked=$(find files/ -type f -printf '%n %f\n' | sed '/^1 /d;s/^[0-9]* //')
+
+  for file in $FILES; do
+    file=${file##*/}
+    if [ -n "$(git status --porcelain "files/$file")" ]; then
+      git diff "files/$file"
+      echo -en "\nDo you want to discard these changes (y/N)? "
+      read -e discard
+      discard=${discard,,} # Lower case
+      if [[ ! "$discard" =~ ^y.* ]]; then
+        continue
+      fi
+    fi
+    if [[ "$linked" =~ "$file" ]]; then
+      TARGET_FILE="$TARGET_DIR/.${file##*/}"
+      rm -f "$TARGET_FILE"
+      git checkout -- "files/$file"
+      ln "files/$file" "$TARGET_FILE"
+    else
+      git checkout -- "files/$file"
+    fi
+  done
+}

@@ -1,0 +1,8 @@
+#!/bin/bash -i
+
+status() {
+  echo "Linked:"
+  find files/ -type f -printf '%n %f\n' | sed -n '/^1 /d;s/^[0-9]* //p'
+  echo -e "\nUnlinked:"
+  find files/ -type f -printf '%n %f\n' | sed -n '/^1 /!d;s/^[0-9]* //p'
+}

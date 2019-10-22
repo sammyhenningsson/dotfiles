@@ -1,0 +1,20 @@
+#!/bin/bash -i
+
+BIN_FILE=$(readlink -f $0)
+BIN_DIR=$(dirname $BIN_FILE)
+ROOT_DIR=$(dirname $BIN_DIR)
+LIB_DIR="$ROOT_DIR/lib"
+
+. "$LIB_DIR/common.sh"
+
+COMMAND="$1"
+shift
+
+if get_script "$COMMAND"; then
+    cd $ROOT_DIR
+    process_args "$@"
+    $COMMAND
+else
+    usage
+    exit 1
+fi

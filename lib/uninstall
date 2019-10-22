@@ -1,0 +1,36 @@
+#!/bin/bash -i
+
+uninstall() {
+  for file in $FILES; do
+    if [ -n "$(git status --porcelain "$file")" ]; then
+      echo -e "$file has been changed.\n"
+      git diff $file
+    fi
+
+    TARGET_FILE="$TARGET_DIR/.${file##*/}"
+
+    echo "Unlinking '$TARGET_FILE'"
+    # Removing the file will delete the hard link.
+    rm -f $file
+    # Then simply checkout the file to restore it without the link
+    git checkout -- $file
+
+    log="${LOG_DIR}/${file##*/}"
+    if [ -f $log ]; then
+      sed -i "\:$TARGET_FILE:d" $log
+      if [ ! -s $log ]; then
+        rm $log
+      fi
+    fi
+
+    echo -n "Delete ${TARGET_FILE} (y/N)? "
+    read -e rm_target
+
+    if [ -n "$rm_target" ]; then
+      rm_target=${rm_target,,} # Lower case
+      if [[ "$rm_target" =~ ^y.* ]]; then
+        rm $TARGET_FILE
+      fi
+    fi
+  done
+}
