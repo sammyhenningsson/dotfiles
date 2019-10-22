@@ -69,6 +69,8 @@ esac
 # Disable freezing shell with Ctrl S 
 stty -ixon
 
+PATH="$HOME/bin:$PATH"
+
 if [ -f ~/.bashrc.local ]; then
     . ~/.bashrc.local
 fi
