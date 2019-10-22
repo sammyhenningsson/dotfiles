@@ -1,0 +1,4 @@
+*.swp
+*.swo
+settings.local.yaml
+Session.vim
