@@ -1,5 +1,5 @@
 # This file is public!
-# Put things that should be private in ~/.bash_local_aliases
+# Put things that should be private in ~/.bash_local.aliases
 
 if [ -f ~/.bash_aliases.local ]; then
     . ~/.bash_aliases.local
@@ -16,6 +16,7 @@ alias cdgems='cd $(gem environment gemdir)/gems'
 alias be='bundle exec'
 alias json='ruby -rjson -e "puts (JSON.pretty_generate JSON.parse(STDIN.read))"'
 alias gm='git checkout master'
+alias gpf='git push --force-with-lease'
 
 alias db='docker build . -t'
 alias dr='docker run --rm -it'
