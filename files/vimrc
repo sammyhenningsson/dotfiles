@@ -30,6 +30,9 @@ Plug 'tpope/vim-commentary'
 "Change surrounding chars of a word
 Plug 'tpope/vim-surround'
 
+"Database interactions
+" Plug 'tpope/vim-dadbod'
+
 "Syntax check
 " Plug 'scrooloose/syntastic'
 Plug 'w0rp/ale'
@@ -57,6 +60,9 @@ Plug 'jeetsukumaran/vim-indentwise'
 
 "Solarized color scheme
 Plug 'altercation/vim-colors-solarized'
+
+" highlight characteres to jump to when using f,F,t and T
+Plug 'unblevable/quick-scope'
 
 call plug#end()
 
@@ -321,6 +327,8 @@ let g:ale_set_highlights = 0
 let g:solarized_termcolors=256
 set background=dark
 colorscheme solarized
+
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " if &diff
 "   highlight DiffAdd    cterm=BOLD ctermfg=NONE ctermbg=22
