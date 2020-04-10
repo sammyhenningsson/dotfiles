@@ -149,8 +149,11 @@ set completeopt=menuone,longest
 " Search recursive (e.g. :find SOME_FI <TAB>)
 set path+=**
 
-" Exculde node_modules/ for search, like :find or :tabfind
+" Exclude node_modules/ for search, like :find or :tabfind
 set wildignore+=*/node_modules/*
+
+" Exclude some more paths
+set wildignore+=sorbet/**,system/**,log/**,tmp/**
 
 "
 set clipboard=unnamedplus
