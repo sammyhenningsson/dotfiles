@@ -193,7 +193,7 @@ nnoremap <leader>d :call RailsDbSchema()<CR>
 nnoremap <leader>q :call RailsRoutes()<CR>
 nnoremap <leader>l :call g:ToggleColorColumn()<CR>
 nnoremap <leader>g yiw:Ggrep <C-R>"<CR>
-vmap     <leader>g y:Ggrep <C-R>"<CR>
+vmap     <leader>g y:Ggrep "<C-R>""<CR>
 " map      <leader>d :redraw!<CR>
 nnoremap <leader>rts 'T:call RunNearestSpec()<CR>
 
