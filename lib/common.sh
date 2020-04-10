@@ -2,7 +2,7 @@ FILES_DIR="$ROOT_DIR/files"
 LOG_DIR="$ROOT_DIR/installs"
 
 usage() {
-  echo "dotfiles [install|uninstall|update|reset]"
+  echo "dotfiles [install|uninstall|update|reset|status]"
 }
 
 get_script() {
