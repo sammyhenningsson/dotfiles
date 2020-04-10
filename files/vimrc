@@ -247,6 +247,7 @@ nmap <A-H> 3b
 nmap <A-J> 5j
 nmap <A-K> 5k
 nmap <A-L> 3w
+nnoremap <C-U> :b #<CR>
 
 "" in visual mode, search selection up or down
 vnoremap * y/<C-R>"<CR>
