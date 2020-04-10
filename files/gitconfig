@@ -21,3 +21,5 @@
 	templatedir = ~/.config/git/templates
 [diff "odf"]
     textconv=odt2txt
+[rebase]
+    autoSquash=true
