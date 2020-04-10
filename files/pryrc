@@ -9,13 +9,13 @@ Pry::Commands.command(/^$/, 'repeat last command') do
   if Pry.history.to_a.last =~ /\Ac(ontinue)?\Z/
     _pry_.run_command 'continue'
   else
-    _pry_.run_command 'next'
+    _pry_.run_command 'next' rescue nil
   end
 end
 
 module Slask
   def ladda
-    Dir.glob("#{Dir.home}/Development/pry_slask/*.rb").each do |file|
+    Dir.glob("#{Dir.home}/Development/ruby_repl/*.rb").each do |file|
       load file
     end
   end
