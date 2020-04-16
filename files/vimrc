@@ -232,8 +232,12 @@ nnoremap [<Space> O<Esc>j
 nnoremap ]<Space> o<Esc>k
 
 "Map Ctrl h/l to previous/next tab
-map <C-h> :tabp<CR>
-map <C-l> :tabn<CR>
+nnoremap <C-h> :tabp<CR>
+nnoremap <C-l> :tabn<CR>
+"
+" Insert a new line before/after current row
+nnoremap [a :prev<CR>
+nnoremap ]a :next<CR>
 
 exec "set <A-H>=\eh"
 exec "set <A-J>=\ej"
