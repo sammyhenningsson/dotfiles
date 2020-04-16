@@ -319,8 +319,8 @@ function! BufSel(pattern)
   endif
 endfunction
 
-" Make sure highlight search foreground color is displayable on Yellow
-highlight Search term=reverse ctermbg=11 ctermfg=Black guibg=Yellow
+" " Make sure highlight search foreground color is displayable on Yellow
+" highlight Search term=reverse ctermbg=11 ctermfg=Black guibg=Yellow
 
 " Code Lint
 " let g:syntastic_always_populate_loc_list = 1
@@ -335,6 +335,12 @@ highlight Search term=reverse ctermbg=11 ctermfg=Black guibg=Yellow
 "let g:syntastic_loc_list_height = 3
 
 let g:ale_set_highlights = 0
+
+
+augroup SpellUnderline
+  autocmd!
+  autocmd ColorScheme * highlight SpellBad cterm=underline
+augroup END
 
 let g:solarized_termcolors=256
 set background=dark
