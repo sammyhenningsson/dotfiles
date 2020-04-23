@@ -37,23 +37,11 @@ Plug 'tpope/vim-surround'
 " Plug 'scrooloose/syntastic'
 Plug 'w0rp/ale'
 
-"File browser
-"Plug 'scrooloose/nerdtree'
-
-"Color theme
-Plug 'dracula/vim'
-
-"Fuzzy file finder
-"Plug 'ctrlpvim/ctrlp.vim'
-
 "Rspec
 Plug 'thoughtbot/vim-rspec'
 
 "Split/join statements
 Plug 'AndrewRadev/splitjoin.vim'
-
-"Paste without losing yanked text
-"Plug 'vim-scripts/ReplaceWithRegister'
 
 "Jump between lines depending on indentation
 Plug 'jeetsukumaran/vim-indentwise'
@@ -136,9 +124,6 @@ set ic
 
 " Smartcase search. If any character is a Capital, search is case sensitive
 set scs
-
-" we use a dark background, don't we?
-"set bg=dark
 
 " Always show the menu, insert longest match
 set completeopt=menuone,longest
