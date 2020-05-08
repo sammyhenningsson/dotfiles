@@ -7,9 +7,9 @@ end
 
 Pry::Commands.command(/^$/, 'repeat last command') do
   if Pry.history.to_a.last =~ /\Ac(ontinue)?\Z/
-    _pry_.run_command 'continue'
+    pry_instance.run_command 'continue'
   else
-    _pry_.run_command 'next' rescue nil
+    pry_instance.run_command 'next' rescue nil
   end
 end
 
