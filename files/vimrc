@@ -227,14 +227,6 @@ nnoremap <C-l> :tabn<CR>
 nnoremap [a :prev<CR>
 nnoremap ]a :next<CR>
 
-exec "set <A-H>=\eh"
-exec "set <A-J>=\ej"
-exec "set <A-K>=\ek"
-exec "set <A-L>=\el"
-exec "nmap \eh <A-H>"
-exec "nmap \ej <A-J>"
-exec "nmap \ek <A-K>"
-exec "nmap \el <A-L>"
 nmap <A-H> 3b
 nmap <A-J> 5j
 nmap <A-K> 5k
