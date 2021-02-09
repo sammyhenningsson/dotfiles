@@ -11,6 +11,7 @@ alias lh='ls -lh'
 alias li='ls -li'
 alias igrep='grep -i'
 alias less='less -IR'
+alias vims='vim -S Session.vim'
 
 alias cdgems='cd $(gem environment gemdir)/gems'
 alias be='bundle exec'
@@ -22,4 +23,4 @@ alias db='docker build . -t'
 alias dr='docker run --rm -it'
 alias de='docker exec -it'
 
-alias standard_notes='~/AppImages/Standard-Notes-3.3.*'
+alias standard_notes='~/AppImages/standard-notes-3.*'

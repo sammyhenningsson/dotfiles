@@ -6,6 +6,7 @@
 [core]
 	editor = vim
 	excludesfile = /home/sammy/.config/git/ignore
+	attributesfile = /home/sammy/.config/git/attributes
 [push]
 	default = current
 [alias]
@@ -16,6 +17,7 @@
 	unstash = stash pop
 	dc = diff --cached
 	ls = log --stat --decorate
+    l1 = show --stat
 	ctags = !.git/hooks/ctags
 [init]
 	templatedir = ~/.config/git/templates

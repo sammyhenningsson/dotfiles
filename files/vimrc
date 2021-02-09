@@ -16,7 +16,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-sensible'
 
 "Adjust shiftwidth and expandtab
-Plug 'tpope/vim-sleuth'
+" Plug 'tpope/vim-sleuth'
 
 "Git
 Plug 'tpope/vim-fugitive'
@@ -54,6 +54,12 @@ Plug 'unblevable/quick-scope'
 
 " Smart subsitutions (:Subvert)
 Plug 'tpope/vim-abolish'
+
+" Vim motions on speed!
+Plug 'easymotion/vim-easymotion'
+
+" GraphQL syntax highlight and indentation
+" Plug 'jparise/vim-graphql'
 
 call plug#end()
 
@@ -197,12 +203,15 @@ nnoremap <leader>s :split <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
+" Easymotion
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " Rspec
-nnoremap <leader>rf :call RunCurrentSpecFile()<CR>
-nnoremap <leader>rs :call RunNearestSpec()<CR>
-nnoremap <leader>rl :call RunLastSpec()<CR>
-nnoremap <leader>ra :call RunFailedSpecs()<CR>
+nnoremap <leader>rf :w<CR>:call RunCurrentSpecFile()<CR>
+nnoremap <leader>rs :w<CR>:call RunNearestSpec()<CR>
+nnoremap <leader>rl :w<CR>:call RunLastSpec()<CR>
+nnoremap <leader>ra :w<CR>:call RunFailedSpecs()<CR>
 
 
 " Change current directory to the same as current file
@@ -227,15 +236,27 @@ nnoremap ]<Space> o<Esc>k
 "Map Ctrl h/l to previous/next tab
 nnoremap <C-h> :tabp<CR>
 nnoremap <C-l> :tabn<CR>
-"
+
+" Faster movement with Ctrl
+nnoremap <C-J> 5j
+nnoremap <C-K> 5k
+
 " Insert a new line before/after current row
 nnoremap [a :prev<CR>
 nnoremap ]a :next<CR>
 
-nmap <A-H> 3b
-nmap <A-J> 5j
-nmap <A-K> 5k
-nmap <A-L> 3w
+" Move in insert mode
+inoremap <C-h> <C-o>h
+inoremap <C-j> <C-o>j
+inoremap <C-k> <C-o>k
+inoremap <C-l> <C-o>l
+
+" nmap <A-H> 3b
+" nmap <A-J> 5j
+" nmap <A-K> 5k
+" nmap <A-L> 3w
+
+" Toggle last buffer
 nnoremap <C-U> :b #<CR>
 
 "" in visual mode, search selection up or down
@@ -266,7 +287,8 @@ endfunction
 
 function! RailsDbSchema()
   let l:git_dir = system("git rev-parse --show-toplevel")
-  let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/schema.rb"
+  " let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/schema.rb"
+  let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/structure.sql"
   :exec("0tabedit ".expand(l:file))
 endfunction
 
@@ -329,6 +351,7 @@ augroup END
 
 let g:solarized_termcolors=256
 set background=dark
+" set background=light
 colorscheme solarized
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
