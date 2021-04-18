@@ -30,6 +30,9 @@ Plug 'tpope/vim-commentary'
 "Change surrounding chars of a word
 Plug 'tpope/vim-surround'
 
+" Run things async and populate the quickfix list
+Plug 'tpope/vim-dispatch'
+
 "Database interactions
 " Plug 'tpope/vim-dadbod'
 
@@ -38,7 +41,10 @@ Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
 
 "Rspec
-Plug 'thoughtbot/vim-rspec'
+" Plug 'thoughtbot/vim-rspec'
+
+" Test runners
+Plug 'vim-test/vim-test'
 
 "Split/join statements
 Plug 'AndrewRadev/splitjoin.vim'
@@ -186,6 +192,7 @@ let mapleader = ','
 nnoremap <leader>p :!ruby -c %<CR>
 nnoremap <leader>c :call g:ToggleQuickfix()<CR>
 nnoremap <leader>n :set number!<CR>
+nnoremap <leader>m :nohlsearch<CR>
 nnoremap <leader>rh :set cursorline!<CR>
 nnoremap <leader>b f,2lXi<CR><Esc>
 nnoremap <leader>d :call RailsDbSchema()<CR>
@@ -207,11 +214,16 @@ cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
 
-" Rspec
-nnoremap <leader>rf :w<CR>:call RunCurrentSpecFile()<CR>
-nnoremap <leader>rs :w<CR>:call RunNearestSpec()<CR>
-nnoremap <leader>rl :w<CR>:call RunLastSpec()<CR>
-nnoremap <leader>ra :w<CR>:call RunFailedSpecs()<CR>
+" " Rspec
+" nnoremap <leader>rf :w<CR>:call RunCurrentSpecFile()<CR>
+" nnoremap <leader>rs :w<CR>:call RunNearestSpec()<CR>
+" nnoremap <leader>rl :w<CR>:call RunLastSpec()<CR>
+" nnoremap <leader>ra :w<CR>:call RunFailedSpecs()<CR>
+
+" vim-test
+nnoremap <leader>rf :w<CR>:TestFile<CR>
+nnoremap <leader>rs :w<CR>:TestNearest<CR>
+nnoremap <leader>rl :w<CR>:TestLast<CR>
 
 
 " Change current directory to the same as current file
@@ -287,8 +299,8 @@ endfunction
 
 function! RailsDbSchema()
   let l:git_dir = system("git rev-parse --show-toplevel")
-  " let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/schema.rb"
-  let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/structure.sql"
+  let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/schema.rb"
+  " let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/structure.sql"
   :exec("0tabedit ".expand(l:file))
 endfunction
 
@@ -343,7 +355,6 @@ endfunction
 
 let g:ale_set_highlights = 0
 
-
 augroup SpellUnderline
   autocmd!
   autocmd ColorScheme * highlight SpellBad cterm=underline
@@ -375,16 +386,8 @@ set statusline+=%=
 set statusline+=%-14.(%l,%c%V%)\ 
 set statusline+=%P
 
-
-" Fix for weird characters???
-"autocmd VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
-"autocmd InsertEnter,InsertChange *
-"  \ if v:insertmode == 'i' | 
-"  \   silent execute '!echo -ne "\e[6 q"' | redraw! |
-"  \ elseif v:insertmode == 'r' |
-"  \   silent execute '!echo -ne "\e[4 q"' | redraw! |
-"  \ endif
-"autocmd VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+" Run vim-test tests via vim-dispatch
+let test#strategy = "dispatch"
 
 function! BufSel(pattern)
   let bufcount = bufnr("$")
