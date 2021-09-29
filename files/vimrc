@@ -63,6 +63,9 @@ Plug 'tpope/vim-abolish'
 
 " Vim motions on speed!
 Plug 'easymotion/vim-easymotion'
+"
+" Vim REST Control
+Plug 'diepm/vim-rest-console'
 
 " GraphQL syntax highlight and indentation
 " Plug 'jparise/vim-graphql'
@@ -210,6 +213,9 @@ nnoremap <leader>s :split <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
+"Highlight current word without jumping to next
+nnoremap <leader>* *N
+
 " Easymotion
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
@@ -221,9 +227,12 @@ nmap <Leader>w <Plug>(easymotion-overwin-w)
 " nnoremap <leader>ra :w<CR>:call RunFailedSpecs()<CR>
 
 " vim-test
-nnoremap <leader>rf :w<CR>:TestFile<CR>
-nnoremap <leader>rs :w<CR>:TestNearest<CR>
-nnoremap <leader>rl :w<CR>:TestLast<CR>
+nnoremap <leader>rdf :w<CR>:TestFile<CR>
+nnoremap <leader>rds :w<CR>:TestNearest<CR>
+nnoremap <leader>rdl :w<CR>:TestLast<CR>
+nnoremap <leader>rf :w<CR>:TestFile -strategy=basic<CR>
+nnoremap <leader>rs :w<CR>:TestNearest -strategy=basic<CR>
+nnoremap <leader>rl :w<CR>:TestLast -strategy=basic<CR>
 
 
 " Change current directory to the same as current file
