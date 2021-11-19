@@ -5,6 +5,10 @@ if defined?(PryByebug)
   Pry.commands.alias_command 'f', 'finish'
 end
 
+# Fix to make Pry show colors in the pager (only needed if the env variable
+# PAGER is set to something matching 'less').
+ENV['PAGER'] = '/usr/bin/less -RFX'
+
 Pry::Commands.command(/^$/, 'repeat last command') do
   if Pry.history.to_a.last =~ /\Ac(ontinue)?\Z/
     pry_instance.run_command 'continue'
@@ -22,3 +26,13 @@ module Slask
 end
 
 include Slask
+
+module UrlHelpers
+  extend Rails.application.routes.url_helpers if defined? Rails
+
+  class << self
+    # Some hack to make url helpers work
+    def optimize_routes_generation?; false; end
+    def url_options; {}; end
+  end
+end
