@@ -200,6 +200,7 @@ nnoremap <leader>rh :set cursorline!<CR>
 nnoremap <leader>b f,2lXi<CR><Esc>
 nnoremap <leader>d :call RailsDbSchema()<CR>
 nnoremap <leader>q :call RailsRoutes()<CR>
+nnoremap <leader>i :call RailsLocales()<CR>
 nnoremap <leader>l :call g:ToggleColorColumn()<CR>
 nnoremap <leader>g yiw:Ggrep <C-R>"<CR>
 vmap     <leader>g y:Ggrep "<C-R>""<CR>
@@ -310,15 +311,22 @@ endfunction
 
 function! RailsDbSchema()
   let l:git_dir = system("git rev-parse --show-toplevel")
-  let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/schema.rb"
-  " let l:file = substitute(l:git_dir, '\n$', '', '') . "/db/structure.sql"
+  " let l:file = substitute(l:git_dir, '\n$', '/db/schema.rb', '')
+  let l:file = substitute(l:git_dir, '\n$', '/db/structure.sql', '')
   :exec("0tabedit ".expand(l:file))
 endfunction
 
 function! RailsRoutes()
   let l:git_dir = system("git rev-parse --show-toplevel")
-  let l:file = substitute(l:git_dir, '\n$', '', '') . "/config/routes.rb"
+  let l:file = substitute(l:git_dir, '\n$', '/config/routes.rb', '')
   :exec("0tabedit ".expand(l:file))
+endfunction
+
+function! RailsLocales()
+  let l:git_dir = system("git rev-parse --show-toplevel")
+  let l:dir = substitute(l:git_dir, '\n$', '/config/locales/', '')
+  :exec("0tabedit ".expand(l:dir . 'en.yml'))
+  :exec("vsplit ".expand(l:dir . 'sv.yml'))
 endfunction
 
 function! BufSel(pattern)
