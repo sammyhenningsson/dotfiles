@@ -38,7 +38,8 @@ Plug 'tpope/vim-dispatch'
 
 "Syntax check
 " Plug 'scrooloose/syntastic'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 
 "Rspec
 " Plug 'thoughtbot/vim-rspec'
@@ -380,8 +381,8 @@ augroup SpellUnderline
 augroup END
 
 let g:solarized_termcolors=256
-set background=dark
-" set background=light
+" set background=dark
+set background=light
 colorscheme solarized
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
