@@ -87,6 +87,17 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# Bash completion for password-store
+if [ -f /usr/share/bash-completion/completions/pass ]; then
+    . /usr/share/bash-completion/completions/pass
+fi
+
+# Bash completion for git
+if [ -f /usr/share/git/completion/git-completion.bash ]; then
+    . /usr/share/git/completion/git-completion.bash
+fi
+
+
 # Fix preserving working directory in gnome-terminal
 if [ -f /etc/profile.d/vte.sh ]; then
     . /etc/profile.d/vte.sh
