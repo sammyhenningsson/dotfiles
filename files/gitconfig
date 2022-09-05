@@ -21,6 +21,7 @@
 	ctags = !.git/hooks/ctags
 [init]
 	templatedir = ~/.config/git/templates
+	defaultBranch = main
 [diff "odf"]
     textconv=odt2txt
 [rebase]
