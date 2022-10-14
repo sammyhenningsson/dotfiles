@@ -100,7 +100,7 @@ set wildchar=<Tab>
 set wildcharm=<Tab>
 
 " show line numbers
-"set number
+" set number
 
 " powerful backspaces
 set backspace=indent,eol,start
@@ -203,6 +203,7 @@ nnoremap <leader>d :call RailsDbSchema()<CR>
 nnoremap <leader>q :call RailsRoutes()<CR>
 nnoremap <leader>i :call RailsLocales()<CR>
 nnoremap <leader>l :call g:ToggleColorColumn()<CR>
+nnoremap <leader>a :G blame<CR>
 nnoremap <leader>g yiw:Ggrep <C-R>"<CR>
 vmap     <leader>g y:Ggrep "<C-R>""<CR>
 " map      <leader>d :redraw!<CR>
@@ -214,6 +215,8 @@ nnoremap <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <leader>s :split <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
+nnoremap <leader>] :tab tag <C-R><C-W><CR>
 
 "Highlight current word without jumping to next
 nnoremap <leader>* *N
@@ -299,7 +302,7 @@ function! g:ToggleQuickfix()
     endif
   endfor
 
-  copen
+  botright copen
 endfunction
 
 function! g:ToggleColorColumn()
@@ -395,6 +398,9 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " endif
 
 let g:netrw_liststyle = 1
+
+" Fix long file names being smashed together with file size
+let g:netrw_dynamic_maxfilenamelen = 32
 
 " Added git branch to status line
 set statusline=%<%{fugitive#statusline()}\ 
