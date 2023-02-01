@@ -38,7 +38,6 @@ Plug 'tpope/vim-dispatch'
 
 "Syntax check
 " Plug 'scrooloose/syntastic'
-" Plug 'w0rp/ale'
 Plug 'dense-analysis/ale'
 
 "Rspec
@@ -377,6 +376,7 @@ endfunction
 "let g:syntastic_loc_list_height = 3
 
 let g:ale_set_highlights = 0
+let g:ale_virtualtext_cursor = 0
 
 augroup SpellUnderline
   autocmd!
