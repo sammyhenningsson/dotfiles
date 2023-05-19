@@ -17,15 +17,15 @@ Pry::Commands.command(/^$/, 'repeat last command') do
   end
 end
 
-module Slask
-  def ladda
-    Dir.glob("#{Dir.home}/Development/ruby_repl/*.rb").each do |file|
-      load file
-    end
-  end
-end
+# module Slask
+#   def ladda
+#     Dir.glob("#{Dir.home}/Development/ruby_repl/*.rb").each do |file|
+#       load file
+#     end
+#   end
+# end
 
-include Slask
+# include Slask
 
 module UrlHelpers
   extend Rails.application.routes.url_helpers if defined? Rails
