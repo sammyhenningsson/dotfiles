@@ -292,6 +292,9 @@ vnoremap # y?<C-R>"<CR>
 
 cmap w!! w !sudo tee > /dev/null %
 
+" No more Ex mode
+map Q <Nop>
+
 iab frozstr # frozen_string_literal: true
 
 function! g:ToggleQuickfix()
