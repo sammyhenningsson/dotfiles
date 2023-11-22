@@ -114,8 +114,12 @@ if [ -x /usr/bin/dircolors ]; then
 fi 
 
 export EDITOR=vim
+export CDPATH=".:~/Development"
+
+##auto complete cd
+#_my_cd() { CDPATH= cd "$@"; }
+#complete -F _my_cd cd
 
 # load rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
-
