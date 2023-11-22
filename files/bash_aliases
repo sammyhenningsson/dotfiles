@@ -11,6 +11,7 @@ alias lh='ls -lh'
 alias li='ls -li'
 alias igrep='grep -i'
 alias less='less -IR'
+alias view='vim -R'
 alias vims='vim -S Session.vim'
 
 alias cdgems='cd $(gem environment gemdir)/gems'
