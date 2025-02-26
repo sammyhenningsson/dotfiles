@@ -17,12 +17,13 @@
 	unstash = stash pop
 	dc = diff --cached
 	ls = log --stat --decorate
-    l1 = show --stat
+	l1 = show --stat
 	ctags = !.git/hooks/ctags
 [init]
 	templatedir = ~/.config/git/templates
 	defaultBranch = main
 [diff "odf"]
-    textconv=odt2txt
+	textconv=odt2txt
+	tool=vimdiff
 [rebase]
-    autoSquash=true
+	autoSquash=true
