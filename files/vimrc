@@ -391,8 +391,8 @@ augroup END
 let g:solarized_termcolors=256
 colorscheme solarized
 
-let theme = system('gsettings get org.gnome.desktop.interface gtk-theme')
-if theme =~ 'Dark'
+let theme = system('gsettings get org.gnome.desktop.interface color-scheme')
+if theme =~? 'dark.*'
   set background=dark
 else
   set background=light
