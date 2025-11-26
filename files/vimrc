@@ -69,6 +69,9 @@ Plug 'diepm/vim-rest-console'
 
 " GraphQL syntax highlight and indentation
 " Plug 'jparise/vim-graphql'
+"
+" Easy locale lookup in Rails i18n.
+Plug 'airblade/vim-localorie'
 
 call plug#end()
 
@@ -99,7 +102,7 @@ set wildchar=<Tab>
 set wildcharm=<Tab>
 
 " show line numbers
-" set number
+set number
 
 " powerful backspaces
 set backspace=indent,eol,start
@@ -174,8 +177,12 @@ autocmd FileType eruby setlocal sw=2 sts=2 et
 " autocmd FileType yaml setlocal foldmethod=indent
 
 " When editing a file, always jump to the last known cursor position.
-" Don't do it when the position is invalid or when inside an event handler
-" (happens when dropping a file on gvim).
+" Don't do it when the position is invalid, when inside an event handler
+" (happens when dropping a file on gvim) or for git commit messages.
+autocmd BufReadPost *
+  \ if &ft !~# 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal g`\"" |
+  \ endif
 
 " turn on for markdown files and text files
 autocmd BufRead,BufNewFile *.md setlocal spell
@@ -190,6 +197,9 @@ autocmd BufEnter * stopinsert
 
 " Disable paste mode when leaving Insert Mode
 autocmd InsertLeave * set nopaste
+
+" vim-localorie: Always show full path in locales files
+autocmd CursorMoved *.yml echo localorie#expand_key()
 
 let mapleader = ','
 nnoremap <leader>p :!ruby -c %<CR>
@@ -208,6 +218,39 @@ nnoremap <leader>g yiw:Ggrep! <C-R>"<CR>
 vmap     <leader>g y:Ggrep! "<C-R>""<CR>
 nnoremap <leader>rts 'T:call RunNearestSpec()<CR>
 nnoremap <leader>x :source $MYVIMRC<CR>
+
+" Colemak-DH
+nnoremap m h
+nnoremap n j
+nnoremap e k
+nnoremap i l
+nnoremap k n
+nnoremap K N
+nnoremap l i
+nnoremap L I
+nnoremap f e
+nnoremap h m
+vnoremap m h
+vnoremap n j
+vnoremap e k
+vnoremap i l
+vnoremap f e
+" nnoremap j y
+" nnoremap l u
+" nnoremap u i
+" nnoremap U I
+" nnoremap s d
+" nnoremap y o
+" nnoremap Y O
+" nnoremap ö p
+" nnoremap Ö P
+
+" Faster movement with Ctrl
+" nnoremap <C-J> 5j
+" nnoremap <C-K> 5k
+" Colemak-DH
+nnoremap <C-N> 5j
+nnoremap <C-E> 5k
 
 " Open file relative to current file
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
@@ -240,6 +283,13 @@ nnoremap <leader>rf :w<CR>:TestFile -strategy=basic<CR>
 nnoremap <leader>rs :w<CR>:TestNearest -strategy=basic<CR>
 nnoremap <leader>rl :w<CR>:TestLast -strategy=basic<CR>
 
+" vim-localorie
+nnoremap <silent> <leader>lt :call localorie#translate()<CR>
+nnoremap <silent> <leader>le :echo localorie#expand_key()<CR>
+autocmd CursorMoved *.yml echo localorie#expand_key()
+
+let maplocalleader = '-'
+nnoremap <buffer> <LocalLeader>t gg/\v^(class\|module)<CR>zt
 
 " Change current directory to the same as current file
 " set autochdir
@@ -253,30 +303,33 @@ nnoremap <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 nnoremap <A-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 "Map gl to Go to end of line
-nnoremap gl $
-nnoremap gh ^
-"
+" nnoremap gl $
+" nnoremap gh ^
+" Colemak-DH
+nnoremap gi $
+nnoremap gm ^
+
 " Insert a new line before/after current row
 nnoremap [<Space> O<Esc>j
 nnoremap ]<Space> o<Esc>k
 
 "Map Ctrl h/l to previous/next tab
-nnoremap <C-h> :tabp<CR>
-nnoremap <C-l> :tabn<CR>
-
-" Faster movement with Ctrl
-nnoremap <C-J> 5j
-nnoremap <C-K> 5k
-
-" Insert a new line before/after current row
-nnoremap [a :prev<CR>
-nnoremap ]a :next<CR>
+" nnoremap <C-h> :tabp<CR>
+" nnoremap <C-l> :tabn<CR>
+" Colemak-DH
+nnoremap <C-m> :tabp<CR>
+nnoremap <C-i> :tabn<CR>
 
 " Move in insert mode
-inoremap <C-h> <C-o>h
-inoremap <C-j> <C-o>j
-inoremap <C-k> <C-o>k
-inoremap <C-l> <C-o>l
+" inoremap <C-h> <C-o>h
+" inoremap <C-j> <C-o>j
+" inoremap <C-k> <C-o>k
+" inoremap <C-l> <C-o>l
+" Colemak-DH
+inoremap <C-m> <C-o>h
+inoremap <C-n> <C-o>j
+inoremap <C-e> <C-o>k
+inoremap <C-i> <C-o>l
 
 " nmap <A-H> 3b
 " nmap <A-J> 5j
@@ -391,8 +444,8 @@ augroup END
 let g:solarized_termcolors=256
 colorscheme solarized
 
-let theme = system('gsettings get org.gnome.desktop.interface gtk-theme')
-if theme =~ 'Dark'
+let theme = system('gsettings get org.gnome.desktop.interface color-scheme')
+if theme =~? 'dark'
   set background=dark
 else
   set background=light
