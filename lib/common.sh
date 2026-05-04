@@ -1,5 +1,7 @@
 FILES_DIR="$ROOT_DIR/files"
-LOG_DIR="$ROOT_DIR/installs"
+CONFIG_FILE="$ROOT_DIR/config"
+
+declare -A FILE_TARGET_NAMES
 
 usage() {
   echo "dotfiles [install|uninstall|update|reset|status]"
@@ -34,13 +36,21 @@ process_args() {
   TARGET_DIR=$(readlink -f $TARGET_DIR)
 
   if [ $# -gt 0 ]; then
-    for f in "$@"; do
-      file="${FILES_DIR}/${f##*/}"
-      if [ ! -f $file ]; then
+    for spec in "$@"; do
+      if [[ "$spec" == *:* ]]; then
+        fname="${spec%%:*}"
+        tname="${spec##*:}"
+      else
+        fname="$spec"
+        tname=""
+      fi
+      file="${FILES_DIR}/${fname##*/}"
+      if [ ! -f "$file" ]; then
         >&2 echo "Source file '$file' does not exist"
         exit 1
       fi
       FILES+=" $file"
+      FILE_TARGET_NAMES["$file"]="$tname"
     done
   else
     FILES=$(find $FILES_DIR -maxdepth 1 -type f)
@@ -50,13 +60,36 @@ process_args() {
     >&2 echo "Target directory '$TARGET_DIR' does not exist"
     exit 1
   fi
+}
 
-  if [ ! -d $LOG_DIR ]; then
-    mkdir $LOG_DIR
+target_name() {
+  local file="$1"
+  local name="${FILE_TARGET_NAMES[$file]}"
+  if [ -z "$name" ]; then
+    echo ".${file##*/}"
+  else
+    echo "$name"
   fi
 }
 
-logfile() {
-  echo "$LOG_DIR/$(basename "$1")"
+config_add() {
+  local source_name="${1##*/}"
+  local target_path="$2"
+  if ! grep -qFx "${source_name} ${target_path}" "$CONFIG_FILE" 2>/dev/null; then
+    echo "${source_name} ${target_path}" >> "$CONFIG_FILE"
+  fi
 }
 
+config_remove() {
+  local source_name="${1##*/}"
+  local target_path="$2"
+  if [ -f "$CONFIG_FILE" ]; then
+    grep -vFx "${source_name} ${target_path}" "$CONFIG_FILE" > "${CONFIG_FILE}.tmp" \
+      && mv "${CONFIG_FILE}.tmp" "$CONFIG_FILE"
+  fi
+}
+
+config_targets() {
+  local source_name="${1##*/}"
+  grep "^${source_name} " "$CONFIG_FILE" 2>/dev/null | awk '{print $2}'
+}
