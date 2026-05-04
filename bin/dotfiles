@@ -13,6 +13,7 @@ shift
 if get_script "$COMMAND"; then
     process_args "$@"
     cd $ROOT_DIR
+    check_migration
     $COMMAND
 else
     usage

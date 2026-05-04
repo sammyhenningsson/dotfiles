@@ -23,6 +23,15 @@ get_script() {
   fi
 }
 
+check_migration() {
+  local hard_linked
+  hard_linked=$(find "$FILES_DIR" -maxdepth 1 -type f -links +1 -printf '%f\n' | head -1)
+  if [ -n "$hard_linked" ]; then
+    >&2 echo "Hard links detected (e.g. '$hard_linked'). Run 'migrate-to-symlinks' first."
+    exit 1
+  fi
+}
+
 process_args() {
   if [ $# -gt 0 -a -d "$1" ]; then
     TARGET_DIR=$1
