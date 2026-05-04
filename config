@@ -7,3 +7,10 @@ ignore /home/sammy/.ignore
 irbrc /home/sammy/.irbrc
 pryrc /home/sammy/.pryrc
 vimrc /home/sammy/.vimrc
+git_hook_ctags /home/sammy/.git_templates/hooks/ctags
+git_hook_post-checkout /home/sammy/.git_templates/hooks/post-checkout
+git_hook_post-commit /home/sammy/.git_templates/hooks/post-commit
+git_hook_post-merge /home/sammy/.git_templates/hooks/post-merge
+git_hook_post-rewrite /home/sammy/.git_templates/hooks/post-rewrite
+inputrc /home/sammy/.inputrc
+sqliterc /home/sammy/.sqliterc

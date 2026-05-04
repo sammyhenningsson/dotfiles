@@ -1,0 +1,17 @@
+#!/bin/sh
+
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+if [[ "$BRANCH" =~ ^(master|main)$ ]]; then
+  for branch in $(git branch --merged | sed 's/^* //'); do
+    if [[ "$branch" =~ ^(master|main)$ ]]; then
+      continue
+    fi
+
+    read -p "'$branch' has been merged to $BRANCH. Do you want to remove it? (y/N): " confirm
+
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+      git branch -d $branch
+    fi
+  done
+fi
