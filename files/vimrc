@@ -67,6 +67,24 @@ Plug 'easymotion/vim-easymotion'
 " Vim REST Control
 Plug 'diepm/vim-rest-console'
 
+" JavaScript support
+Plug 'pangloss/vim-javascript'
+
+" TypeScript syntax
+" Plug 'leafgarland/typescript-vim'
+
+" JS and JSX syntax
+Plug 'maxmellon/vim-jsx-pretty'
+
+" Code completions
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Context dependent comments (e.g in .vue files)
+" Plug 'suy/vim-context-commentstring'
+
+" Vim syntax and indent plugin for .vue files
+Plug 'leafOfTree/vim-vue-plugin'
+
 " GraphQL syntax highlight and indentation
 " Plug 'jparise/vim-graphql'
 "
@@ -187,6 +205,18 @@ autocmd BufReadPost *
 " turn on for markdown files and text files
 autocmd BufRead,BufNewFile *.md setlocal spell
 autocmd BufRead,BufNewFile *.txt setlocal spell
+
+augroup TypeScriptFiles
+  " GoTo code navigation.
+  au FileType typescript,vue nmap <silent> gd <Plug>(coc-definition)
+  au FileType typescript,vue nmap <silent> gr <Plug>(coc-references)
+augroup END
+
+augroup NewVueVile
+  autocmd!
+  " Create new Vue files from template
+  au BufNewFile *.vue 0r ~/.vim/templates/vue
+augroup END
 
 autocmd BufReadPost *
   \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -320,17 +350,6 @@ nnoremap ]<Space> o<Esc>k
 nnoremap <C-m> :tabp<CR>
 nnoremap <C-i> :tabn<CR>
 
-" Move in insert mode
-" inoremap <C-h> <C-o>h
-" inoremap <C-j> <C-o>j
-" inoremap <C-k> <C-o>k
-" inoremap <C-l> <C-o>l
-" Colemak-DH
-inoremap <C-m> <C-o>h
-inoremap <C-n> <C-o>j
-inoremap <C-e> <C-o>k
-inoremap <C-i> <C-o>l
-
 " nmap <A-H> 3b
 " nmap <A-J> 5j
 " nmap <A-K> 5k
@@ -349,6 +368,7 @@ cmap w!! w !sudo tee > /dev/null %
 map Q <Nop>
 
 iab frozstr # frozen_string_literal: true
+iab vuet :0r ~/.vim/templates/vue
 
 function! g:ToggleQuickfix()
   for buffer in tabpagebuflist()
@@ -435,6 +455,12 @@ endfunction
 
 let g:ale_set_highlights = 0
 let g:ale_virtualtext_cursor = 0
+let g:ale_linters_explicit = 1
+let g:ale_linters= {'ruby': ['standardrb'], 'typescript': ['eslint'], 'vue': ['eslint']}
+let g:ale_fixers = {'ruby': ['standardrb'], 'typescript': ['eslint'], 'vue': ['eslint']}
+" This does not seem to work. How to stop tsserver from showing warnings that
+" eslint don't care about???
+let b:ale_linters_ignore = ['tsserver']
 
 augroup SpellUnderline
   autocmd!
@@ -475,6 +501,9 @@ set statusline+=[Buf:%n]
 set statusline+=%=
 set statusline+=%-14.(%l,%c%V%)\ 
 set statusline+=%P
+
+" CoC extensions
+let g:coc_global_extensions = ['coc-tsserver']
 
 " Run vim-test tests via vim-dispatch
 let test#strategy = "dispatch"
@@ -530,3 +559,19 @@ endfunction
 command! -nargs=1 Bs :call BufSel("<args>")
 command! -nargs=1 Bo :call BufOpen("<args>")
 command! -nargs=1 Bt :call BufTabOpen("<args>")
+
+command! GHurl echo "https://github.com/apoex/auti/blob/master/" . expand('%') . "#L" . line('.')
+
+" vim-vue-plugin: set local options based on syntax
+function! OnChangeVueSyntax(syntax)
+  " echom 'Syntax is '.a:syntax
+  if a:syntax == 'html'
+    setlocal commentstring=<!--%s-->
+    setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
+  elseif a:syntax =~ 'css'
+    setlocal comments=s1:/*,mb:*,ex:*/ commentstring&
+  else
+    setlocal commentstring=//%s
+    setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+  endif
+endfunction

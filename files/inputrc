@@ -1,0 +1,11 @@
+set show-mode-in-prompt on
+set vi-ins-mode-string "\1\e[2 q\2"   # bar cursor in insert mode
+set vi-cmd-mode-string "\1\e[4 q\2"   # block cursor in normal mode
+
+
+# Make "Esc + ." work in vi mode
+"\e.": yank-last-arg
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-k": kill-line
+"\C-u": unix-line-discard
