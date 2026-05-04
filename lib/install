@@ -6,17 +6,21 @@ install() {
   for file in $FILES; do
     local tname=$(target_name "$file")
     TARGET_FILE="$TARGET_DIR/$tname"
-    if [ -f "$TARGET_FILE" ]; then
-      rm "$file"
-      ln "$TARGET_FILE" "$file"
-
+    if [ -L "$TARGET_FILE" ]; then
+      if [ "$(readlink -f "$TARGET_FILE")" != "$(readlink -f "$file")" ]; then
+        echo "Skipping '$TARGET_FILE': already a symlink to a different file"
+      fi
+    elif [ -f "$TARGET_FILE" ]; then
+      cp "$TARGET_FILE" "$file"
+      rm "$TARGET_FILE"
+      ln -s "$file" "$TARGET_FILE"
       if [ -n "$(git status --porcelain "$file")" ]; then
-        echo "Target file '$TARGET_FILE' already exist and differs against repo!"
+        echo "Target file '$TARGET_FILE' already existed and differs against repo!"
         CHECK_GIT_STATUS=1
       fi
     else
       echo "Linking '$TARGET_FILE'"
-      ln "$file" "$TARGET_FILE"
+      ln -s "$file" "$TARGET_FILE"
     fi
     config_add "$file" "$TARGET_FILE"
   done

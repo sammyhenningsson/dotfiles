@@ -1,9 +1,6 @@
 #!/bin/bash -i
 
-
 reset() {
-  local linked=$(find files/ -type f -printf '%n %f\n' | sed '/^1 /d;s/^[0-9]* //')
-
   for file in $FILES; do
     file=${file##*/}
     if [ -n "$(git status --porcelain "files/$file")" ]; then
@@ -17,14 +14,5 @@ reset() {
     fi
 
     git checkout -- "files/$file"
-
-    if [[ "$linked" =~ "$file" ]]; then
-      while IFS= read -r target; do
-        if [ -f "$target" ]; then
-          rm "$target"
-          ln "files/$file" "$target"
-        fi
-      done < <(config_targets "$file")
-    fi
   done
 }

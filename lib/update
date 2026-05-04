@@ -1,20 +1,5 @@
 #!/bin/bash -i
 
 update() {
-  local linked_before=$(find files/ -type f -printf '%n %f\n' | sed '/^1 /d;s/^[0-9]* //')
   git pull
-  local unlinked_after=$(find files/ -type f -printf '%n %f\n' | sed -n '/^1 /!d;s/^[0-9]* //p')
-
-  for file in $linked_before; do
-    if [[ "$unlinked_after" =~ "$file" ]]; then
-      while IFS= read -r target; do
-        if [ -f "$target" ]; then
-          rm "files/$file"
-          ln "$target" "files/$file"
-        else
-          config_remove "$file" "$target"
-        fi
-      done < <(config_targets "$file")
-    fi
-  done
 }

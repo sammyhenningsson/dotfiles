@@ -7,16 +7,14 @@ uninstall() {
       git diff $file
     fi
 
-    echo "Unlinking '$file'"
-    rm -f $file
-    git checkout -- $file
-
     local source_name="${file##*/}"
     local targets
     mapfile -t targets < <(config_targets "$source_name")
     for target in "${targets[@]}"; do
-      if [ -f "$target" ]; then
-        rm -i "$target"
+      if [ -L "$target" ]; then
+        echo "Unlinking '$target'"
+        rm "$target"
+        cp "$file" "$target"
       fi
       config_remove "$source_name" "$target"
     done

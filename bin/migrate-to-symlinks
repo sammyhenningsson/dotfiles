@@ -1,0 +1,39 @@
+#!/bin/bash
+
+BIN_FILE=$(readlink -f $0)
+BIN_DIR=$(dirname $BIN_FILE)
+ROOT_DIR=$(dirname $BIN_DIR)
+
+FILES_DIR="$ROOT_DIR/files"
+CONFIG_FILE="$ROOT_DIR/config"
+
+if [ ! -f "$CONFIG_FILE" ]; then
+  echo "No config file found. Run 'dotfiles install' first."
+  exit 1
+fi
+
+while IFS=' ' read -r source_name target_path; do
+  file="$FILES_DIR/$source_name"
+
+  if [ ! -f "$file" ]; then
+    echo "Skipping '$source_name': not found in files/"
+    continue
+  fi
+
+  if [ -L "$target_path" ]; then
+    echo "Already a symlink: $target_path"
+    continue
+  fi
+
+  if [ -f "$target_path" ] && [ "$target_path" -ef "$file" ]; then
+    rm "$target_path"
+    ln -s "$file" "$target_path"
+    echo "Migrated: $target_path -> $file"
+  elif [ ! -e "$target_path" ]; then
+    echo "Skipping '$target_path': target does not exist"
+  else
+    echo "Skipping '$target_path': not a hard link to files/$source_name"
+  fi
+done < "$CONFIG_FILE"
+
+echo "Done."
