@@ -1,0 +1,9 @@
+bash_aliases /home/sammy/.bash_aliases
+bash_funcs /home/sammy/.bash_funcs
+bashrc /home/sammy/.bashrc
+ctags /home/sammy/.ctags
+gitconfig /home/sammy/.gitconfig
+ignore /home/sammy/.ignore
+irbrc /home/sammy/.irbrc
+pryrc /home/sammy/.pryrc
+vimrc /home/sammy/.vimrc

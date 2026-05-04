@@ -19,15 +19,12 @@ reset() {
     git checkout -- "files/$file"
 
     if [[ "$linked" =~ "$file" ]]; then
-      local log=$(logfile $file)
-      if [ -f $log ]; then
-        for target in $(cat $log); do
-          if [ -f "$target" ]; then
-            rm "$target"
-            ln "files/$file" "$target"
-          fi
-        done
-      fi
+      while IFS= read -r target; do
+        if [ -f "$target" ]; then
+          rm "$target"
+          ln "files/$file" "$target"
+        fi
+      done < <(config_targets "$file")
     fi
   done
 }

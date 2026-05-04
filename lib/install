@@ -4,7 +4,8 @@ install() {
   CHECK_GIT_STATUS=0
 
   for file in $FILES; do
-    TARGET_FILE="$TARGET_DIR/.${file##*/}"
+    local tname=$(target_name "$file")
+    TARGET_FILE="$TARGET_DIR/$tname"
     if [ -f "$TARGET_FILE" ]; then
       rm "$file"
       ln "$TARGET_FILE" "$file"
@@ -17,16 +18,7 @@ install() {
       echo "Linking '$TARGET_FILE'"
       ln "$file" "$TARGET_FILE"
     fi
-    local log_file="${LOG_DIR}/${file##*/}"
-    local write_log=1
-    if [ -f $log_file ]; then
-      if grep -q "$TARGET_FILE" "$log_file"; then
-        write_log=0
-      fi
-    fi
-    if [ "$write_log" -eq 1 ]; then
-      echo $TARGET_FILE >> "$log_file"
-    fi
+    config_add "$file" "$TARGET_FILE"
   done
 
   if [ $CHECK_GIT_STATUS -gt 0 ]; then

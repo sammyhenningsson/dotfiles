@@ -8,19 +8,17 @@ uninstall() {
     fi
 
     echo "Unlinking '$file'"
-    # Removing the file will delete the hard link.
     rm -f $file
-    # Then simply checkout the file to restore it without the link
     git checkout -- $file
 
-    local log=$(logfile $file)
-    if [ -f $log ]; then
-      for target in $(cat $log); do
-        if [ -f $target ]; then
-          rm -i $target
-        fi
-      done
-      rm $log
-    fi
+    local source_name="${file##*/}"
+    local targets
+    mapfile -t targets < <(config_targets "$source_name")
+    for target in "${targets[@]}"; do
+      if [ -f "$target" ]; then
+        rm -i "$target"
+      fi
+      config_remove "$source_name" "$target"
+    done
   done
 }
