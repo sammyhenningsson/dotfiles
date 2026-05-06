@@ -100,5 +100,5 @@ config_remove() {
 
 config_targets() {
   local source_name="${1##*/}"
-  grep "^${source_name} " "$CONFIG_FILE" 2>/dev/null | awk '{print $2}'
+  grep "^${source_name} " "$CONFIG_FILE" 2>/dev/null | awk -v home="$HOME" '{sub(/^~/, home, $2); print $2}'
 }

@@ -3,11 +3,13 @@
 status() {
   echo "Linked:"
   while IFS=' ' read -r source_name target_path; do
+    target_path="${target_path/#\~/$HOME}"
     [ -L "$target_path" ] && echo "  $source_name -> $target_path"
   done < "$CONFIG_FILE"
 
   echo -e "\nUnlinked:"
   while IFS=' ' read -r source_name target_path; do
+    target_path="${target_path/#\~/$HOME}"
     [ ! -L "$target_path" ] && echo "  $source_name"
   done < "$CONFIG_FILE"
 }
