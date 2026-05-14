@@ -242,7 +242,7 @@ nnoremap <leader>h :nohlsearch<CR>
 nnoremap <leader>rh :set cursorline!<CR>
 nnoremap <leader>b f,2lXi<CR><Esc>
 nnoremap <leader>d :call RailsDbSchema()<CR>
-nnoremap <leader>z :call RailsRoutes()<CR>
+nnoremap <leader>q :call RailsRoutes()<CR>
 nnoremap <leader>i :call RailsLocales()<CR>
 nnoremap <leader>hr :set cursorline!<CR>
 nnoremap <leader>hc :call g:ToggleColorColumn()<CR>
@@ -260,45 +260,11 @@ nnoremap <leader>k <Cmd>call GoToNextIndent(-1, v:count1)<CR>
 vmap <leader>j <Cmd>call GoToNextIndent(1, v:count1)<CR>
 vmap <leader>k <Cmd>call GoToNextIndent(-1, v:count1)<CR>
 
-" Colemak-DH
-" nnoremap <leader>i <C-i>
-" nnoremap <leader>o <C-o>
-
-" Colemak-DH
-" nnoremap m h
-" nnoremap n j
-" nnoremap e k
-" nnoremap i l
-" nnoremap k n
-" nnoremap K N
-" nnoremap l i
-" nnoremap L I
-" nnoremap f e
-" nnoremap h m
-" vnoremap m h
-" vnoremap n j
-" vnoremap e k
-" vnoremap f e
-" " nnoremap j y
-" " nnoremap l u
-" " nnoremap u i
-" " nnoremap U I
-" " nnoremap s d
-" " nnoremap y o
-" " nnoremap Y O
-" " nnoremap ö p
-" " nnoremap Ö P
-
 " Faster movement with Ctrl
 nnoremap <C-J> 5j
 nnoremap <C-K> 5k
 nnoremap <C-Down> 5j
 nnoremap <C-Up> 5k
-" Colemak-DH
-" nnoremap <C-N> 5j
-" nnoremap <C-E> 5k
-" nnoremap <C-J> 5j
-" nnoremap <C-K> 5k
 
 " Open file relative to current file
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
@@ -352,12 +318,7 @@ nnoremap <A-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 "Map gl to Go to end of line
 nnoremap gh ^
-nnoremap gl $
-" Colemak-DH
-" nnoremap gm ^
-" nnoremap gi $
-" nnoremap gn gj
-" nnoremap ge gk
+nnoremap ga $
 
 " Insert a new line before/after current row
 nnoremap [<Space> O<Esc>j
@@ -365,15 +326,16 @@ nnoremap ]<Space> o<Esc>k
 
 "Map Ctrl h/l to previous/next tab
 nnoremap <C-h> :tabp<CR>
-nnoremap <C-l> :tabn<CR>
+nnoremap <C-a> :tabn<CR>
 nnoremap <C-Left>  :tabp<CR>
 nnoremap <C-Right> :tabn<CR>
-" Colemak-DH
-" nnoremap <C-m> :tabp<CR>
-" nnoremap <C-i> :tabn<CR>
+
+" Increment/decrement numbers
+nnoremap + <C-a>
+nnoremap - <C-x>
 
 " Toggle last buffer
-nnoremap <C-U> :b #<CR>
+nnoremap <C-t> :b #<CR>
 
 "" in visual mode, search selection up or down
 vnoremap * y/<C-R>"<CR>
