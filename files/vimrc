@@ -112,7 +112,6 @@ set shiftwidth=2
 " spaces instead of tabs
 set expandtab
 
-set pastetoggle=<C-u>
 set showmode
 
 " guess indentation
@@ -234,14 +233,19 @@ autocmd InsertLeave * set nopaste
 " vim-localorie: Always show full path in locales files
 autocmd CursorMoved *.yml echo localorie#expand_key()
 
+"time to wait for more key presses. (mappings with multiple keys)
+set timeoutlen=500
+
+nmap ä ,
+nmap ö .
+
 let mapleader = ','
 nnoremap <leader>c :call g:ToggleQuickfix()<CR>
 nnoremap <leader>n :set number!<CR>
-nnoremap <leader>m :nohlsearch<CR>
 nnoremap <leader>h :nohlsearch<CR>
 nnoremap <leader>rh :set cursorline!<CR>
 nnoremap <leader>b f,2lXi<CR><Esc>
-nnoremap <leader>d :call RailsDbSchema()<CR>
+nnoremap <leader>p :call RailsDbSchema()<CR>
 nnoremap <leader>q :call RailsRoutes()<CR>
 nnoremap <leader>i :call RailsLocales()<CR>
 nnoremap <leader>hr :set cursorline!<CR>
@@ -255,14 +259,17 @@ nnoremap <leader>rts 'T:call RunNearestSpec()<CR>
 nnoremap <leader>x :source $MYVIMRC<CR>
 nnoremap <leader>l :ALEToggle<CR>
 
-nnoremap <leader>j <Cmd>call GoToNextIndent(1, v:count1)<CR>
-nnoremap <leader>k <Cmd>call GoToNextIndent(-1, v:count1)<CR>
-vmap <leader>j <Cmd>call GoToNextIndent(1, v:count1)<CR>
-vmap <leader>k <Cmd>call GoToNextIndent(-1, v:count1)<CR>
+" Jump to the first class/module definition and put it at the top of the screen
+nnoremap <leader>m gg/\v^(class\|module)<CR>zt
+
+nnoremap <leader>Down <Cmd>call GoToNextIndent(1, v:count1)<CR>
+nnoremap <leader>Up <Cmd>call GoToNextIndent(-1, v:count1)<CR>
+vmap <leader>Down <Cmd>call GoToNextIndent(1, v:count1)<CR>
+vmap <leader>Up <Cmd>call GoToNextIndent(-1, v:count1)<CR>
 
 " Faster movement with Ctrl
-nnoremap <C-J> 5j
-nnoremap <C-K> 5k
+" nnoremap <C-J> 5j
+" nnoremap <C-K> 5k
 nnoremap <C-Down> 5j
 nnoremap <C-Up> 5k
 
@@ -280,8 +287,18 @@ nnoremap <leader>] :tab tag <C-R><C-W><CR>
 nnoremap <leader>* *N
 
 " Easymotion
+let g:EasyMotion_keys = 'shtarenivygfcldokäwumöqåpj'
+let g:EasyMotion_smartcase = 1
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
+map <leader><leader>l <Plug>(easymotion-bd-jk)
+
+" Across split windows
+map <leader>W <Plug>(easymotion-overwin-w)
+
+" Use the same key twice to repeat (s for 'search' mnemonic)
+map s <Plug>(easymotion-overwin-f2)
+
 
 " " Rspec
 " nnoremap <leader>rf :w<CR>:call RunCurrentSpecFile()<CR>
@@ -303,7 +320,6 @@ nnoremap <silent> <leader>le :echo localorie#expand_key()<CR>
 autocmd CursorMoved *.yml echo localorie#expand_key()
 
 let maplocalleader = '-'
-nnoremap <buffer> <LocalLeader>t gg/\v^(class\|module)<CR>zt
 
 " Change current directory to the same as current file
 " set autochdir
