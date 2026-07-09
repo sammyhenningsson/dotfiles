@@ -234,10 +234,14 @@ autocmd InsertLeave * set nopaste
 autocmd CursorMoved *.yml echo localorie#expand_key()
 
 "time to wait for more key presses. (mappings with multiple keys)
-set timeoutlen=500
+set timeoutlen=600
 
 nmap ä ,
 nmap ö .
+nmap Ö :
+vmap ä ,
+vmap ö .
+vmap Ö :
 
 let mapleader = ','
 nnoremap <leader>c :call g:ToggleQuickfix()<CR>
