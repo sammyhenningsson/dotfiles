@@ -237,11 +237,11 @@ autocmd CursorMoved *.yml echo localorie#expand_key()
 set timeoutlen=600
 
 nmap ä ,
-nmap ö .
-nmap Ö :
+nmap k .
+nmap K :
 vmap ä ,
-vmap ö .
-vmap Ö :
+vmap k .
+vmap K :
 
 let mapleader = ','
 nnoremap <leader>c :call g:ToggleQuickfix()<CR>
@@ -291,7 +291,7 @@ nnoremap <leader>] :tab tag <C-R><C-W><CR>
 nnoremap <leader>* *N
 
 " Easymotion
-let g:EasyMotion_keys = 'shtarenivygfcldokäwumöqåpj'
+let g:EasyMotion_keys = 'shtarenibvcfgldowujåpämkyö'
 let g:EasyMotion_smartcase = 1
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
