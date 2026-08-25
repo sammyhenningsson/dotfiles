@@ -266,10 +266,10 @@ nnoremap <leader>l :ALEToggle<CR>
 " Jump to the first class/module definition and put it at the top of the screen
 nnoremap <leader>m gg/\v^(class\|module)<CR>zt
 
-nnoremap <leader>Down <Cmd>call GoToNextIndent(1, v:count1)<CR>
-nnoremap <leader>Up <Cmd>call GoToNextIndent(-1, v:count1)<CR>
-vmap <leader>Down <Cmd>call GoToNextIndent(1, v:count1)<CR>
-vmap <leader>Up <Cmd>call GoToNextIndent(-1, v:count1)<CR>
+nnoremap <leader><Down> <Cmd>call GoToNextIndent(1, v:count1)<CR>
+nnoremap <leader><Up> <Cmd>call GoToNextIndent(-1, v:count1)<CR>
+vmap <leader><Down> <Cmd>call GoToNextIndent(1, v:count1)<CR>
+vmap <leader><Up> <Cmd>call GoToNextIndent(-1, v:count1)<CR>
 
 " Faster movement with Ctrl
 " nnoremap <C-J> 5j
