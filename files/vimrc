@@ -291,7 +291,7 @@ nnoremap <leader>] :tab tag <C-R><C-W><CR>
 nnoremap <leader>* *N
 
 " Easymotion
-let g:EasyMotion_keys = 'shtarenibvcfgldowujåpämkyö'
+let g:EasyMotion_keys = 'shtarenibvclgfdowupmky'
 let g:EasyMotion_smartcase = 1
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
