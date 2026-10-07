@@ -290,6 +290,12 @@ nnoremap <leader>] :tab tag <C-R><C-W><CR>
 "Highlight current word without jumping to next
 nnoremap <leader>* *N
 
+"Graphmod layout
+nnoremap l j
+vnoremap l j
+nnoremap h k
+vnoremap h k
+
 " Easymotion
 let g:EasyMotion_keys = 'shtarenibvclgfdowupmky'
 let g:EasyMotion_smartcase = 1
